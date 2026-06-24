@@ -1,0 +1,5 @@
+- Use one premise set and one conclusion. The four answer options must be truth-evaluation labels, not four different conclusions.
+- The correct answer must be either True or False. Do not make Cannot be determined correct for this L1 direct-deduction template.
+- Good option pattern: True, False, Cannot be determined, True only in real life.
+- Do not use real-world plausibility; evaluate only whether the conclusion is directly entailed or directly contradicted by the statements.
+- Prefer formal, artificial premises over obvious real-world facts, such as "No squares are happy. Shape X is a square. Therefore Shape X is not happy."

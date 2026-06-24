@@ -1,0 +1,2 @@
+- Do not reject simple ordered-symbol two-layer series only because they use letters. A sequence like A, X, B, W, C, V, ? is valid when odd positions progress A-B-C-D and even positions progress X-W-V.
+- For symbolic terms, require simple ordered progression with no semantic/category knowledge. Reject irregular alphabet jumps, hidden word knowledge, or more than two odd/even rules.

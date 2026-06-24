@@ -1,0 +1,4 @@
+- For parity plus divisibility classification, use divisibility by an odd number so parity remains an independent second attribute. Do not use divisibility by an even number plus parity.
+- Do not output self-correction text such as "Wait" or "must be adjusted"; regenerate internally before returning the final item.
+- The selected option text, correctAnswer, metadata.correct_answer, explanation, and option_rationales must all refer to the same actual option.
+- Good model pattern: writing tools used for making marks on paper; Pencil, Pen, and Marker fit, Eraser is related but has the opposite function.

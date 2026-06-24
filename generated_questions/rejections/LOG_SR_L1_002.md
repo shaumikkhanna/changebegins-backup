@@ -1,0 +1,4 @@
+- For NEXT_TERM items, show at least two full visible cycles before the answer point.
+- For internal MISSING_TERM items, the blank may appear before two full cycles if visible terms on both sides make the cycle unique.
+- Use three distinct distractor mistake types; do not make two wrong options the same generic surface-match distractor.
+- Prefer words, colors, shapes, or letters over symbol-only cycles until the generator reliably emits valid JSON for symbols.

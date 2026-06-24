@@ -1,0 +1,7 @@
+- Do not use digit sums, factor counts, divisibility, or other numeric hidden properties for this template.
+- Use one clean formal rule throughout the question, explanation, metadata.correct_answer, and option rationales. Do not switch rules mid-explanation.
+- Do not output self-correction text such as "Wait", "Actually", "Instead", or "A better formal rule"; regenerate internally before returning.
+- For odd-one-out word items, verify every stated property of every option before output. Do not claim an option fails a property it actually satisfies.
+- For palindrome or word-structure odd-one-out items, avoid surface cues that create another plausible odd answer. Do not make one option the only different first letter, last letter, or word length.
+- Bad pattern: LEVEL, RADAR, ROTOR, RAVEN, because LEVEL is the only word not starting with R.
+- Good model pattern: MOP : POP :: RAT : ? where the rule replaces the first letter with the last letter, producing TAT.
