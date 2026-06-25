@@ -34,6 +34,12 @@ The important design choice is:
   - Use `--validation --full` to print the rich harness validation prompt.
   - Automatically appends `generated_questions/rejections/<templateId>.md` as known failures to avoid when that file exists.
 
+- `tools/logical-generate-prompt-bundle.js`
+  - Builds one large JSON object for all logical templates.
+  - Each key is a template ID, e.g. `LOG_GR_L3_034`.
+  - Each value is the compact generation prompt for exactly 1 question.
+  - Supports `--out`, `--context`, `--spec`, `--no-rejections`, and `--rejections`.
+
 - `tools/repair-generated-json.js`
   - Stdin/stdout helper for generated items that are logically fine but use smart quotes.
   - Replaces smart quotes with ASCII quotes, parses the result, and prints formatted valid JSON.
@@ -126,6 +132,12 @@ Print a minimal generation prompt to stdout:
 
 ```sh
 node tools/logical-generate-prompt.js LOG_OR_L3_028
+```
+
+Build a JSON bundle of compact 1-question prompts for every template:
+
+```sh
+node tools/logical-generate-prompt-bundle.js --out /tmp/logical-prompt-bundle.json
 ```
 
 Print the full generation prompt to stdout:
@@ -222,6 +234,11 @@ Context should change only the surface story, not the reasoning structure.
   - Simple ordered-symbol two-layer series are valid, such as `A, X, B, W, C, V, ?`.
   - Do not reject letter sequences merely because they are not numeric.
 
+- `LOG_SR_L3_006`
+  - Now rigid: exactly six visible terms from `term(n) = n^2 + c`, ask for the 8th term, and do not reveal the rule in the stem.
+  - The 7th term is a near-miss distractor; the 8th term must appear exactly once and align across key, metadata, explanation, and rationales.
+  - Explanations must be final and clean with no self-correction text.
+
 - `LOG_AN_L2_010`
   - Parity plus divisibility must use divisibility by an odd number; divisibility by an even number overlaps with parity.
   - Added checks against self-correction text and mismatched correct option/explanation.
@@ -294,13 +311,16 @@ Context should change only the surface story, not the reasoning structure.
 - `LOG_GR_L3_033`
   - Now rigid: only `VALID_GROUPING` with exactly 8 entities, 3 labeled groups sized 3/3/2, and exactly four non-capacity constraints.
   - Required constraint mix: same-group, apart/different-group, must-be-in-group, and cannot-be-in-group.
-  - Wrong-option plan: one same-group violation, one must-be-in-group violation, and one apart/cannot-be-in-group violation; every wrong rationale must name the violated constraint.
+  - Wrong-option plan: one same-group violation, one must-be-in-group violation, and one apart/cannot-be-in-group violation; every wrong rationale must name at least one actual primary violated constraint.
+  - Do not fail an otherwise unique item just because a wrong option has additional unstated violations; exhaustive violation listing is not required.
   - Audit all options against all capacity, inclusion, exclusion, and role constraints; a different grouping is still valid if it satisfies every stated rule.
 
 - `LOG_GR_L3_034`
-  - Now rigid: exactly 5 entities, 5 explicitly ordered roles, and 5 constraints that force a unique complete assignment.
-  - Required construction maps the unique assignment to `A -> R2`, `B -> R3`, `C -> R4`, `D -> R1`, `E -> R5` using fixed, immediate-after, exclusion, before, and exclusion constraints.
-  - Wrong-option plan: one immediate-after violation, one `C` exclusion violation, and one `D before C` or `E not R4` violation; every wrong rationale must name the violated constraint.
+  - Rigid logic but shuffled surface: exactly 5 entities, 5 explicitly ordered roles, and 5 constraints that force a unique complete assignment.
+  - Internal construction uses slots `P/Q/R/S/T`, variable anchor `k` from 1-4, and an explicit anchor table; surface names, role labels, constraint order, option order, and correct letter must vary.
+  - The anchor table must be followed exactly. For example, if `k = 4`, `R` is assigned to `R2`, so the `R` exclusion must be `not R1 or R3`; excluding `R2` makes the item unsatisfiable.
+  - Wrong-option plan: one immediate-after violation, one `R` exclusion violation, and one `S before R` or `T not middle remaining role` violation; every wrong rationale must name the violated constraint.
+  - Rationale incompleteness is a repair note, not fatal, if exactly one option is valid and no rationale claims a distractor is valid.
 
 - `LOG_CR_L2_037`
   - Now forward-chain only: positive starting fact triggers a two- or three-link conditional chain.

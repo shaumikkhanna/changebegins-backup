@@ -1,0 +1,4 @@
+- Bad pattern: question stem states the rule directly; the student must infer the rule from the sequence.
+- Bad pattern: correct projected term is computed in the explanation but is missing from the options or not aligned with `correctAnswer` / `metadata.correct_answer`.
+- Bad pattern: explanation includes self-correction text such as `Wait`, `Actually`, or a question-marked computed answer.
+- Use the rigid recipe: exactly six visible terms from `term(n) = n^2 + c`, ask for the 8th term, include `term(7)` as a near-miss distractor, and include `term(8)` as exactly one keyed option.

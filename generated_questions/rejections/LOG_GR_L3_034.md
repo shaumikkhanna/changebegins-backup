@@ -1,4 +1,8 @@
 - Bad pattern: multiple complete assignment options satisfy all stated constraints, so the assignment is not unique.
 - Exact bad pattern to avoid: when a wrong option satisfies every fixed, exclusion, and immediate-after rule, do not reject it using an unstated uniqueness assumption.
-- Use the rigid L3 recipe: exactly 5 entities, exactly 5 explicitly ordered roles, and exactly 5 constraints that force the assignment structure A->R2, B->R3, C->R4, D->R1, E->R5.
-- Wrong-option plan: one distractor violates the immediate-after constraint, one violates the C exclusion constraint, and one violates D-before-C or E-not-R4. Each wrong rationale must name the violated constraint.
+- Use the rigid L3 recipe with shuffled surface mapping: exactly 5 entities, exactly 5 explicitly ordered roles, and internal slots P/Q/R/S/T.
+- Vary the anchor position `k` from 1-4, then assign P->Rk, Q->R(k+1), R->middle remaining role, S->lowest remaining role, and T->highest remaining role.
+- Use the anchor table exactly. For `k = 4`, the correct row is P->R4, Q->R5, R->R2, S->R1, T->R3; therefore R's exclusion must be `not R1 or R3`, not `not R2 or R3`.
+- Shuffle visible entity names, role labels, constraint order, answer option order, and correct option letter. Across a batch, the correct answer must not always be A.
+- Wrong-option plan: one distractor violates the immediate-after constraint, one violates the R exclusion constraint, and one violates S-before-R or T-not-middle-remaining-role. Each wrong rationale must name the violated constraint.
+- Rationale incompleteness or extra unstated violations should be treated as a repair note, not a fatal failure, when exactly one option is valid and no rationale claims a distractor is valid.

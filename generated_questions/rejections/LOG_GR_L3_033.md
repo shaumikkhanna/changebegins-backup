@@ -3,4 +3,5 @@
 - For `VALID_GROUPING`, audit every option against every stated constraint; exactly one option may satisfy all constraints.
 - Wrong grouping options should remain complete assignments, but each must violate a named capacity, inclusion, exclusion, or role constraint.
 - Use the rigid L3 recipe: exactly 8 entities, 3 labeled groups sized 3/3/2, and exactly four non-capacity constraints: same-group, apart/different-group, must-be-in-group, cannot-be-in-group.
-- Wrong-option plan: one distractor violates same-group, one violates must-be-in-group, and one violates apart/different-group or cannot-be-in-group. Each wrong rationale must name the violated constraint.
+- Wrong-option plan: one distractor violates same-group, one violates must-be-in-group, and one violates apart/different-group or cannot-be-in-group.
+- Do not reject an otherwise unique valid item merely because a wrong option violates more than one constraint. The rationale must name at least one actual primary violation and must not claim the wrong option satisfies all constraints.

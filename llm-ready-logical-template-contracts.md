@@ -391,41 +391,61 @@ required_operators:
     - RULE_VALIDATION
     - MULTI_STEP_PROJECTION
 sequence_length: 5-7 visible terms
-projection_distance: 2-3 steps beyond final visible term
+projection_distance: exactly 2 steps beyond final visible term
 options: exactly 4
 ```
 
 ### Contract
 
-Generate a sequence where the student must infer or validate the rule, then project beyond the immediate next term.
+Generate a sequence where the student must infer or validate the rule, then project beyond the immediate next term. Do not state the rule in the question stem.
+
+Use this construction recipe exactly:
+
+1. Choose a small integer constant `c` from 1 to 9.
+2. Generate exactly six visible terms using `term(n) = n^2 + c` for `n = 1` through `6`.
+3. Ask: "What is the 8th term in the sequence?"
+4. Compute the immediate next term separately: `term(7) = 49 + c`. This must be a `NEAR_MISS` distractor, not the correct answer.
+5. Compute the correct projected term: `term(8) = 64 + c`.
+6. Include `term(8)` as exactly one option, and align `correctAnswer`, `metadata.correct_answer`, explanation, and option rationales to that same value.
+7. Use the other two distractors for plausible arithmetic or rule mistakes, not random values.
 
 ### Allowed Variations
 
-- ask for 7th, 8th, or term after two/three more steps
+- ask for the 8th term after showing exactly six visible terms
 - include answer choices that reflect common errors
-- use formula-based or repeated-step rules
+- use the formula-based square-plus-constant rule from the construction recipe
 
 ### Forbidden
 
+- stating the rule in the question stem
+- wording the target as "after two more steps"; ask for the numbered 8th term instead
 - asking only for the immediate next term
 - tedious arithmetic
 - ambiguous rule selection
 - multiple correct projections
+- omitting the correct projected term from the options
+- keying the immediate next term as the correct answer
+- mismatch between `correctAnswer`, `metadata.correct_answer`, explanation, and option rationales
+- self-correction text such as `Wait`, `Actually`, `Correction`, or question-marked computations in the explanation
 
 ### Validator Must Check
 
 - intended rule fits all visible terms
-- requested term is not immediate next term
+- question stem does not reveal the rule
+- requested term is the 8th term, not the immediate next 7th term
 - projection is correct
 - exactly one option matches
+- the immediate next 7th term appears only as a distractor
+- all answer fields and rationales agree on the same correct projected value
+- explanation is final and clean, with no self-correction text
 
 ### Example Skeleton
 
 ```text
-Sequence: 1, 4, 9, 16, 25
+Sequence: 4, 7, 12, 19, 28, 39
 Question target: 8th term.
-Rule: nth term is n^2.
-Answer: 64
+Rule used in explanation: nth term is n^2 + 3.
+Answer: 67
 ```
 
 ---
@@ -2020,7 +2040,7 @@ Use this construction process:
    - one wrong option must violate either the apart/different-group constraint or the cannot-be-in-a-specific-group constraint
 4. Every option must assign all eight entities exactly once. Prefer wrong options that preserve the 3/3/2 group sizes, unless the intended violation is a capacity violation explicitly named in the rationale.
 5. Audit all four options against every stated constraint before returning. If more than one option satisfies all constraints, regenerate one of the options.
-6. In `metadata.option_rationales`, every wrong option must name the exact violated constraint. No wrong-option rationale may say or imply that the option satisfies all constraints.
+6. In `metadata.option_rationales`, every wrong option must name at least one actual violated constraint as the primary violation. A wrong option may violate more than one constraint; it is acceptable for the rationale to name only the primary violation as long as it is true. No wrong-option rationale may say or imply that the option satisfies all constraints.
 
 Important audit rule: a grouping can be valid even when pairs or fixed-role entities appear in a different valid location than the intended answer. Reject an option only for violating a stated constraint, not for differing from the chosen correct grouping.
 
@@ -2057,7 +2077,7 @@ Important audit rule: a grouping can be valid even when pairs or fixed-role enti
 - every option is checked against every stated capacity, inclusion, exclusion, and role constraint
 - exactly one option satisfies all stated constraints
 - option rationales do not acknowledge a wrong option as satisfying all constraints
-- wrong-option rationales name the exact violated constraint
+- wrong-option rationales name at least one actual violated constraint; do not fail an otherwise valid item only because a wrong option has additional unstated violations
 
 ### Example Skeleton
 
@@ -2089,29 +2109,43 @@ options: exactly 4
 
 Generate an assignment puzzle where exactly one complete assignment satisfies all constraints. Use exactly five entities and exactly five ordered roles. The role order must be explicitly stated in the stem.
 
-Use this construction recipe exactly:
+Use this construction recipe exactly, but randomize the surface names, role labels, anchor position, option order, and constraint order:
 
 1. Choose five ordered roles `R1, R2, R3, R4, R5`.
-2. Choose five entities `A, B, C, D, E`.
-3. Build the unique correct assignment with this structure:
-   - `A -> R2`
-   - `B -> R3`
-   - `C -> R4`
-   - `D -> R1`
-   - `E -> R5`
-4. Write these five constraints using the surface names:
-   - `A` is assigned to `R2`.
-   - `B` is assigned to the role immediately after `A`'s role in the stated role order.
-   - `C` is not assigned to `R1` or `R5`.
-   - `D` is assigned to a role before `C`'s role in the stated role order.
-   - `E` is not assigned to `R4`.
-5. Create four complete one-to-one assignment options:
+2. Choose five surface entities and randomly map them to internal slots `P`, `Q`, `R`, `S`, and `T`. Do not expose these slot letters unless they are also the chosen surface names.
+3. Choose an anchor position `k` from 1, 2, 3, or 4.
+4. Build the unique correct assignment with this structure:
+   - `P -> Rk`
+   - `Q -> R(k+1)`
+   - Let the three remaining roles in increasing order be `U1`, `U2`, and `U3`.
+   - `R -> U2`
+   - `S -> U1`
+   - `T -> U3`
+5. Before writing the stem, instantiate this anchor table and use only the row for the chosen `k`:
+
+| Chosen `k` | `P` fixed role | `Q` immediate-after role | `R` correct role | `R` exclusion must be | `S` correct role | `T` correct role | `T` exclusion must be |
+| ---------- | -------------- | ------------------------ | ---------------- | --------------------- | ---------------- | ---------------- | --------------------- |
+| 1          | `R1`           | `R2`                     | `R4`             | not `R3` or `R5`      | `R3`             | `R5`             | not `R4`              |
+| 2          | `R2`           | `R3`                     | `R4`             | not `R1` or `R5`      | `R1`             | `R5`             | not `R4`              |
+| 3          | `R3`           | `R4`                     | `R2`             | not `R1` or `R5`      | `R1`             | `R5`             | not `R2`              |
+| 4          | `R4`           | `R5`                     | `R2`             | not `R1` or `R3`      | `R1`             | `R3`             | not `R2`              |
+
+6. Write these five constraints using the surface names:
+   - `P` is assigned to `Rk`.
+   - `Q` is assigned to the role immediately after `P`'s role in the stated role order.
+   - `R` is not assigned to the two excluded roles shown in the table row. This exclusion must leave `R`'s correct role allowed.
+   - `S` is assigned to a role before `R`'s role in the stated role order.
+   - `T` is not assigned to the excluded role shown in the table row. This exclusion must leave `T`'s correct role allowed.
+7. Shuffle the visible order of the five constraints.
+8. Create four complete one-to-one assignment options:
    - one option is the unique correct assignment
    - one wrong option must violate the immediate-after constraint
-   - one wrong option must violate the `C` exclusion constraint
-   - one wrong option must violate the `D before C` or `E not R4` constraint
-6. Audit all four options against all five constraints before returning. If more than one option satisfies all constraints, regenerate the wrong options.
-7. In `metadata.option_rationales`, every wrong option must name the exact violated constraint. No wrong-option rationale may say or imply that the option satisfies all constraints.
+   - one wrong option must violate the `R` exclusion constraint
+   - one wrong option must violate the `S before R` or `T` exclusion constraint
+9. Shuffle the answer options so the correct answer is not predictably option A. Across a batch of three generated items, use at least two different correct option letters.
+10. Audit the intended correct option against all five constraints before returning. If it violates even one constraint, regenerate the item.
+11. Audit all four options against all five constraints before returning. If more than one option satisfies all constraints, regenerate the wrong options.
+12. In `metadata.option_rationales`, every wrong option should name an actual violated constraint. Rationale incompleteness or extra unstated violations should be treated as a repair note, not a fatal validation failure, unless the rationale claims a wrong option satisfies all constraints.
 
 ### Allowed Forms
 
@@ -2127,13 +2161,16 @@ Use this construction recipe exactly:
 - more or fewer than five entities
 - more or fewer than five roles
 - roles without an explicitly stated order
-- changing the required construction recipe
+- using the same surface names, role labels, anchor position, constraint order, or correct option letter for every item in a batch
+- exposing the internal slot recipe instead of presenting natural surface names
 - relying on unstated preferences
 - constraints that can be ignored without changing the answer
 - options that fail simple one-to-one assignment before testing logic
 - any wrong option that satisfies all stated constraints
 - option rationales that reject an option using unstated uniqueness assumptions instead of a named violated constraint
 - option rationales that acknowledge a distractor as valid or satisfying all constraints
+- exclusion constraints that exclude the intended correct role for that entity
+- anchor table mismatches, such as choosing `k = 4` but writing `R is not R2 or R3` when the table requires `R is not R1 or R3`
 
 ### Validator Must Check
 
@@ -2141,17 +2178,19 @@ Use this construction recipe exactly:
 - exactly five entities and five ordered roles are used
 - role order is explicitly stated
 - the constraints follow the required recipe and force the unique assignment
+- for the chosen anchor row, the fixed role, immediate-after role, `R` exclusions, `S before R`, and `T` exclusion match the table
+- surface names, role labels, anchor position, constraint order, and option order are varied; the correct option is not always A
 - every option is a complete one-to-one assignment
 - every wrong option violates at least one named constraint
-- wrong-option rationales name the exact violated constraint
+- wrong-option rationales should name an actual violated constraint, but do not fail an otherwise unique item solely for incomplete rationales or additional unstated violations
 - no wrong-option rationale acknowledges a distractor as valid or satisfying all constraints
 
 ### Example Skeleton
 
 ```text
-Five people are assigned to five ordered days Monday through Friday. A is Tuesday. B is assigned to the day immediately after A's day. C is not Monday or Friday. D is before C. E is not Thursday.
+Five people are assigned to five ordered days Monday through Friday. Choose an internal anchor position and shuffled surface names before writing the item.
 Question: Which complete assignment is valid?
-Valid answer: D-Monday, A-Tuesday, B-Wednesday, C-Thursday, E-Friday.
+Valid answer must follow the internal slot recipe, but the visible names, roles, constraint order, and option letter must be shuffled.
 ```
 
 ---
