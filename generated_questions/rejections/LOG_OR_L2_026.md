@@ -1,0 +1,10 @@
+- Before finalizing, audit each arrangement option against every stated rule.
+- This template only asks which complete left-to-right arrangement is valid.
+- Use exactly four entities, exactly three constraints, and exactly four full-arrangement options.
+- Exactly one option may satisfy all rules; the other three must violate at least one named rule.
+- Build the valid arrangement first, then create wrong options by modifying it to violate a named rule.
+- Do not output an item if the explanation notices another option is also valid; regenerate internally instead.
+- For non-adjacency rules, check the exact named pair. Do not reject an option for adjacency involving the wrong pair.
+- Bad pattern: A and B both satisfy `Beena immediately before Dev`, `Arun left of Charu`, and `Arun not adjacent to Beena`.
+- Bad pattern: claiming an option violates `R is not adjacent to Q` by discussing adjacency between Q and P.
+- Bad pattern: no option satisfies all constraints.

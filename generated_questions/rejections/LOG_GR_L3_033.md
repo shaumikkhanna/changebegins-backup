@@ -1,0 +1,6 @@
+- Bad pattern: two complete grouping options both satisfy all capacity, inclusion, exclusion, and fixed-role constraints.
+- Exact bad pattern to avoid: with shifts sized 3/3/2, `J and K together`, `L and M apart`, `N in Shift C`, and `O not in Shift A`, both `Shift A: {J, K, L}; Shift B: {M, O, P}; Shift C: {N, Q}` and `Shift A: {J, K, M}; Shift B: {L, P, Q}; Shift C: {N, O}` are valid.
+- For `VALID_GROUPING`, audit every option against every stated constraint; exactly one option may satisfy all constraints.
+- Wrong grouping options should remain complete assignments, but each must violate a named capacity, inclusion, exclusion, or role constraint.
+- Use the rigid L3 recipe: exactly 8 entities, 3 labeled groups sized 3/3/2, and exactly four non-capacity constraints: same-group, apart/different-group, must-be-in-group, cannot-be-in-group.
+- Wrong-option plan: one distractor violates same-group, one violates must-be-in-group, and one violates apart/different-group or cannot-be-in-group. Each wrong rationale must name the violated constraint.

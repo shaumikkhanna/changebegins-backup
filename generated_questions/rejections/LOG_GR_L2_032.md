@@ -1,0 +1,4 @@
+- Bad pattern: two options both satisfy the capacity rule and the together/apart rule, so the item has two valid answers.
+- Exact bad pattern to avoid: with 6 workers split 4/2 and `M and N must be in the same shift`, both `Shift X: {J, K, M, N}; Shift Y: {L, O}` and `Shift X: {J, K, L, O}; Shift Y: {M, N}` are valid. The pair may be together in either shift if the size rule is satisfied.
+- For `VALID_GROUPING`, audit every option against every stated rule before finalizing; exactly one option may satisfy all rules.
+- Wrong grouping options should remain complete assignments, but each must violate capacity, inclusion, or exclusion.

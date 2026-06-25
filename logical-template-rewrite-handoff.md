@@ -39,7 +39,8 @@ The important design choice is:
   - Replaces smart quotes with ASCII quotes, parses the result, and prints formatted valid JSON.
 
 - `temporary-logical-question-generation-workflow.md`
-  - Practical workflow for generating and validating questions locally.
+  - Historical workflow note from the earlier pass.
+  - Not currently present in the workspace; the active quick workflow is now in `tools/logical-generate-prompt.js` plus this handoff.
 
 - `seeded-aptitude-item-prompt-spec.md`
   - Older seeded aptitude prompt package.
@@ -56,6 +57,11 @@ The important design choice is:
 - `generated_questions/1.json`
   - Scratch generated output from the temporary testing flow.
   - Treat as unvalidated evidence, not a golden sample; some items are expected to fail until they pass the validation loop.
+
+- `generated_questions/rejections/<templateId>.md`
+  - Template-specific failure notes automatically included by `tools/logical-generate-prompt.js`.
+  - Keep these notes short and pattern-based.
+  - Use them for repeated generator or validator failures before deciding whether the canonical contract itself needs a change.
 
 ## What The Harness Does
 
@@ -158,6 +164,36 @@ The older combined ChatGPT format still exists:
 node tools/logical-template-harness.js build LOG_OR_L3_028 --format chatgpt --out /tmp/logical-chatgpt-prompt.txt
 ```
 
+## Current Manual Loop
+
+1. Pick one `templateId`.
+2. Generate the compact prompt:
+
+```sh
+node tools/logical-generate-prompt.js LOG_OR_L2_026
+```
+
+3. Paste the prompt into ChatGPT and generate 3 items.
+4. If the output has smart quotes or minor JSON formatting problems, repair it:
+
+```sh
+node tools/repair-generated-json.js < generated-output.json
+```
+
+5. Generate the compact validation prompt:
+
+```sh
+node tools/logical-generate-prompt.js LOG_OR_L2_026 --validation
+```
+
+6. Paste the generated JSON into the validation prompt.
+7. Classify failures:
+   - Bad generated item: add a short note to `generated_questions/rejections/<templateId>.md`.
+   - False-positive validator or unclear rule: update `llm-ready-logical-template-contracts.md`.
+   - Repeated structural generation error: make the template more restrictive, usually with a construction recipe.
+
+Do not treat repairable smart quotes as validation failures. The validator prompt explicitly says recoverable serialization issues should not fail otherwise valid reasoning.
+
 ## Context Option
 
 Use `--context non-engineering` for general aptitude-style settings such as people, books, schedules, objects, or events.
@@ -165,6 +201,132 @@ Use `--context non-engineering` for general aptitude-style settings such as peop
 Use `--context engineering` for STEM/workplace-engineering settings such as modules, machines, lab steps, sensors, components, or technical teams.
 
 Context should change only the surface story, not the reasoning structure.
+
+## Current Contract Decisions
+
+- The compact prompt is the default. Use `--full` only when debugging prompt content.
+- Validation is compact by default. Use `--validation --full` only when comparing against the rich judge prompt.
+- Core contract retrieval remains deterministic; do not use fuzzy retrieval for the selected template contract.
+- Rejection notes are lightweight retrieval. They are automatically appended only for the selected template.
+- For `COULD_BE_TRUE` in `LOG_LD_L3_017` and `LOG_SY_L3_022`, the current project decision is broad: a must-true statement still counts as something that could be true.
+- For ordering valid-arrangement templates, prefer restrictive construction recipes over flexible possible/impossible wording. Build the valid arrangement first, then create wrong options by controlled violations.
+- For generated item validation, quote/JSON cleanup belongs to `tools/repair-generated-json.js`; reasoning validators should focus on item logic unless formatting prevents understanding.
+
+## Recent Template Fix Ledger
+
+- `LOG_SR_L1_002`
+  - Internal missing-term cycles do not need two full cycles before the blank if visible terms before/after make the cycle unique.
+  - Prefer non-symbol cycles when symbol JSON quoting keeps failing.
+
+- `LOG_SR_L2_003`
+  - Simple ordered-symbol two-layer series are valid, such as `A, X, B, W, C, V, ?`.
+  - Do not reject letter sequences merely because they are not numeric.
+
+- `LOG_AN_L2_010`
+  - Parity plus divisibility must use divisibility by an odd number; divisibility by an even number overlaps with parity.
+  - Added checks against self-correction text and mismatched correct option/explanation.
+  - Example skeleton is the writing-tool/mark-on-paper item.
+
+- `LOG_AN_L3_011`
+  - Digit-sum, factor-count, and divisibility hidden rules are disallowed.
+  - Example skeleton is `MOP : POP :: RAT : ?`, answer `TAT`.
+  - Palindrome/word-structure odd-one-out items must avoid surface cues such as one different first letter.
+
+- `LOG_LD_L1_012`
+  - Four options must be truth-evaluation labels.
+  - Correct answer must be `True` or `False`; `Cannot be determined` is a distractor for this L1 direct-deduction template.
+  - Logical deduction domain now prefers artificial/non-obvious premises, e.g. `No squares are happy`.
+
+- `LOG_LD_L1_013`
+  - Distractors cannot be restatements, weaker forms, or entailed variants of the correct conclusion.
+  - `A only if B` means `if A then B`; do not use equivalent `only if` statements as distractors.
+
+- `LOG_LD_L3_017`
+  - Broad `could be true`: must-true statements still count as possible.
+  - Removed the earlier possible-but-not-forced restriction.
+
+- `LOG_SY_L1_019`
+  - Universal negatives convert validly: `No A are B` equals `No B are A`.
+  - Converse universal negatives cannot be used as distractors.
+
+- `LOG_SY_L3_022`
+  - Broad `could be true`, matching `LOG_LD_L3_017`: if a claim is entailed, it still could be true.
+  - Removed the earlier possible-but-not-guaranteed restriction.
+
+- `LOG_OR_L1_024`
+  - Rank distractors may include plausible status phrases like `Equal 1st`.
+  - Validator should check whether exactly one option is defensible, not whether all option wording uses the same convention.
+
+- Ordering domain-wide
+  - For linear arrangements, adjacent means positions differ by exactly 1.
+  - `immediately before` means `position(A) + 1 = position(B)`.
+  - `not adjacent` means `abs(position(A) - position(B)) > 1`.
+  - Arrangement-option questions require auditing every option against every rule.
+
+- `LOG_OR_L2_026`
+  - Now rigid: only `VALID_ARRANGEMENT`.
+  - Exactly 4 entities, exactly 3 constraints, exactly 4 full left-to-right arrangement options.
+  - Build valid arrangement first; wrong options must violate named rules.
+
+- `LOG_OR_L3_027`
+  - Now rigid: only `VALID_ARRANGEMENT`.
+  - Exactly 5 entities, exactly 4 constraints, exactly 4 full left-to-right arrangement options.
+  - Same build-valid-first and option-audit recipe as `LOG_OR_L2_026`.
+
+- `LOG_OR_L3_028`
+  - Do not require every constraint to be individually necessary after removal.
+  - A constraint is acceptable if it helps prove the answer or eliminates at least one wrong option.
+
+- `LOG_GR_L1_030`
+  - Changed from `DIRECT_MATCH` to `INFERRED_MATCH`.
+  - Do not ask for a match explicitly stated in the stem.
+
+- `LOG_GR_L2_031`
+  - Every option must assign every listed item exactly once.
+  - Wrong options must preserve completeness and fail only capacity limits.
+  - No redundant capacity wording such as `at least 2 and exactly 3`.
+
+- `LOG_GR_L2_032`
+  - For valid-grouping questions, build one correct complete grouping first, then create wrong complete groupings that violate at least one stated rule.
+  - Audit every option against capacity and together/apart rules; exactly one option may satisfy all rules.
+  - A together-pair can be valid in either labeled group if capacity is satisfied; do not treat the intended group placement as an extra hidden rule.
+
+- `LOG_GR_L3_033`
+  - Now rigid: only `VALID_GROUPING` with exactly 8 entities, 3 labeled groups sized 3/3/2, and exactly four non-capacity constraints.
+  - Required constraint mix: same-group, apart/different-group, must-be-in-group, and cannot-be-in-group.
+  - Wrong-option plan: one same-group violation, one must-be-in-group violation, and one apart/cannot-be-in-group violation; every wrong rationale must name the violated constraint.
+  - Audit all options against all capacity, inclusion, exclusion, and role constraints; a different grouping is still valid if it satisfies every stated rule.
+
+- `LOG_GR_L3_034`
+  - Now rigid: exactly 5 entities, 5 explicitly ordered roles, and 5 constraints that force a unique complete assignment.
+  - Required construction maps the unique assignment to `A -> R2`, `B -> R3`, `C -> R4`, `D -> R1`, `E -> R5` using fixed, immediate-after, exclusion, before, and exclusion constraints.
+  - Wrong-option plan: one immediate-after violation, one `C` exclusion violation, and one `D before C` or `E not R4` violation; every wrong rationale must name the violated constraint.
+
+- `LOG_CR_L2_037`
+  - Now forward-chain only: positive starting fact triggers a two- or three-link conditional chain.
+  - Removed contrapositive / `not C therefore not A` forms because the required operator is only `CONDITIONAL_CHAIN`, not `MODUS_TOLLENS`.
+  - Wrong options should target partial chains, reversal errors, or unsupported conclusions.
+
+- `LOG_BL_L1_040`
+  - Now uses a rigid asymmetric two-person recipe to avoid symmetric cross-claim failures.
+  - A says "A and B are different types"; B says "A is a liar"; the unique answer is A truth-teller and B liar.
+  - Audit both possible one-truth-one-lie assignments; avoid cross-accusations where both swapped assignments survive or no assignment survives.
+
+- `LOG_BL_L2_041`
+  - Now rigid: exactly four mutually exclusive possibilities, exactly four ordinary statements, and exactly two true statements.
+  - Avoid self-referential `Statement N is true/false` systems; use the fixed 0/1/2/3 truth-count split so only one selection gives exactly two true statements.
+  - Correct true statement set is Statements 1 and 2; explanations should audit all four possibilities.
+
+- `LOG_BL_L2_042`
+  - Now two-person only with exactly one conditional claim and one non-conditional claim.
+  - Avoid third-person status references unless a stronger template governs all statuses.
+  - Audit all four assignments; wrong options are exhaustive assignments and do not need distinct misconception categories if each rationale names the exact statement conflict.
+  - Metadata should include `TRUTH_TELLER_LIAR`, `CONDITIONAL_CLAIM`, `STATEMENT_CONSISTENCY`, `CASE_SPLIT`, and `UNIQUE_WORLD`.
+
+- `LOG_BL_L3_043`
+  - Now rigid: exactly three people, exactly one liar, and exactly three non-conditional claims.
+  - Required recipe: A says "B is a liar"; B says "A is a liar"; C says "B is a truth-teller".
+  - Unique world is A liar, B truth-teller, C truth-teller; audit all four options and reject any explanation that selects a contradicted option.
 
 ## Why This Is Better Than The Older Flow
 

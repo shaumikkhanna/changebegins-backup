@@ -1,0 +1,4 @@
+- Bad pattern: multiple complete assignment options satisfy all stated constraints, so the assignment is not unique.
+- Exact bad pattern to avoid: when a wrong option satisfies every fixed, exclusion, and immediate-after rule, do not reject it using an unstated uniqueness assumption.
+- Use the rigid L3 recipe: exactly 5 entities, exactly 5 explicitly ordered roles, and exactly 5 constraints that force the assignment structure A->R2, B->R3, C->R4, D->R1, E->R5.
+- Wrong-option plan: one distractor violates the immediate-after constraint, one violates the C exclusion constraint, and one violates D-before-C or E-not-R4. Each wrong rationale must name the violated constraint.

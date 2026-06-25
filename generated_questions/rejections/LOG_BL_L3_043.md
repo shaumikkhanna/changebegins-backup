@@ -1,0 +1,4 @@
+- Bad pattern: selected answer contains a speaker assigned liar whose statement is actually true, or a speaker assigned truthful whose statement is false.
+- Bad pattern: explanation notices a contradiction in the selected option but still concludes that option is correct.
+- Use the rigid L3 recipe: exactly three people, exactly one liar, A says "B is a liar", B says "A is a liar", C says "B is a truth-teller".
+- The unique correct world is A liar, B truth-teller, C truth-teller. Audit all four options before finalizing.

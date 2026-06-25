@@ -1,0 +1,4 @@
+- Do not use distractors that are logically entailed by the premises or by the correct conclusion.
+- Avoid `only if` distractors when they restate the same implication. `A only if B` means `if A then B`, so it may be valid.
+- Bad pattern: Premises say "If a card is Approved, then it is Marked" and "Card L is Approved"; option "Card L is Approved only if it is Marked" is also valid, not a distractor.
+- Ensure exactly one option follows directly; all other options must be unsupported or contradicted.

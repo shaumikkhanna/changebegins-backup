@@ -1,0 +1,4 @@
+- Bad pattern: symmetric cross-accusations such as A says "B is a liar" and B says "A is a liar"; both swapped assignments are valid.
+- Bad pattern: A says "B is a truth-teller" and B says "A is a liar"; no assignment is valid under exactly one truth-teller and one liar.
+- Use the rigid L1 recipe: A says "A and B are different types"; B says "A is a liar"; the unique answer is A truth-teller and B liar.
+- Audit both possible assignments before finalizing; exactly one must survive, and the explanation must not acknowledge both as possible.

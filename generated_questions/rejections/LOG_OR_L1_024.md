@@ -1,0 +1,3 @@
+- Do not reject a distractor only because it uses a rank-status phrase such as `Equal 1st` while other options use ordinal ranks.
+- A tie/status distractor is acceptable when the premises clearly establish a strict ranking and rule out ties.
+- Validate whether exactly one option is defensible, not whether every option has identical wording convention.

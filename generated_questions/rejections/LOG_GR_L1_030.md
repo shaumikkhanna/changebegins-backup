@@ -1,0 +1,4 @@
+- Do not ask for a match that is explicitly stated in the stem.
+- Bad pattern: stem says `M is in Box 4`, then asks `Which box contains M?`
+- The answer must be inferred from one-to-one assignment or a remaining-role/remaining-box deduction.
+- Distractors should be plausible assignment mistakes or one-to-one violations, not merely alternate role labels.

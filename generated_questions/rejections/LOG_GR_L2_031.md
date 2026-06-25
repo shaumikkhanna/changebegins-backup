@@ -1,0 +1,5 @@
+- Every option must assign every listed item exactly once. Do not use omitted or duplicated items as distractors.
+- Wrong options should preserve complete assignment and violate only capacity limits.
+- Bad pattern: six students A-F are listed, but an option assigns only A-E and omits F.
+- Bad pattern: seven books P-V are listed, but an option omits V.
+- Do not use redundant capacity wording such as `at least 2 workers and exactly 3 workers` for the same group.

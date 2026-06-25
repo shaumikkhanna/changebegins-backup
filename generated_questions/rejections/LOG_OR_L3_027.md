@@ -1,0 +1,9 @@
+- This template only asks which complete left-to-right arrangement is valid.
+- Use exactly five entities, exactly four constraints, and exactly four full-arrangement options.
+- Build the valid arrangement first, then create wrong options by modifying it to violate a named rule.
+- Audit every option against every stated rule. Exactly one option may satisfy all rules.
+- Do not output an item if another option also satisfies all constraints; regenerate internally.
+- Bad pattern: both A and B satisfy `K immediately before M`, `L left of O`, `N at the right end`, and `O not adjacent to M`.
+- Bad pattern: explanation says an option violates a rule but misreads the actual order shown in that option.
+- Adjacency audit rule: assign numeric positions first. In `K, M, L, N, O`, M is position 2 and L is position 3, so L and M are adjacent and this option violates `L is not adjacent to M`.
+- Do not mark an option valid if any named non-adjacent pair has positions differing by exactly 1.

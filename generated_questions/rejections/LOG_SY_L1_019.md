@@ -1,0 +1,5 @@
+- Universal negative statements convert validly: `No A are B` and `No B are A` are logically equivalent.
+- Do not use the converse of a true `No A are B` conclusion as a distractor; it is also true.
+- Bad pattern: if `No Zorps are Rims` follows, then `No Rims are Zorps` also follows and cannot be another option.
+- Bad pattern: if `No Glims are Happy` is entailed, then `No Happy things are Glims` is also entailed.
+- Ensure no other option is true, not merely that it is less direct than the intended conclusion.

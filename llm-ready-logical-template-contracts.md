@@ -855,12 +855,16 @@ Generate two straightforward premises and four possible conclusions. Exactly one
 - negative distractors that require subtle reasoning
 - multiple valid conclusions
 - options that are true in the real world but unsupported by premises
+- distractors that restate, weaken, or are logically entailed by the valid conclusion
+- `only if` distractors when the premise already states the same implication
 
 ### Validator Must Check
 
 - exactly one option follows from premises
 - distractors are unsupported or contradicted
 - explanation references only premises
+- no distractor is equivalent to, weaker than, or directly entailed by the correct option
+- if an option uses `only if`, verify its direction; `A only if B` means `if A then B`
 
 ### Example Skeleton
 
@@ -1027,6 +1031,8 @@ options: exactly 4
 
 Generate a question asking whether a proposed situation is possible under all given statements.
 
+For `COULD_BE_TRUE` items, possible means true in at least one satisfying model. A statement that is forced by the premises still qualifies as something that could be true.
+
 ### Allowed Forms
 
 - class-membership constraints
@@ -1046,13 +1052,15 @@ Generate a question asking whether a proposed situation is possible under all gi
 - premises are jointly satisfiable
 - proposed outcome is classified correctly as possible, impossible, must be true, or cannot be determined
 - explanation uses a model or contradiction argument
+- for `COULD_BE_TRUE`, do not reject an option merely because it is also entailed by the premises; must-true statements are still possible
 
 ### Example Skeleton
 
 ```text
-Premises: Some A are B. All B are C. No C are D.
-Question: Can something be both B and D?
-Answer: No, impossible.
+Premises: All Daxes are marked. No marked things are Zins. Item Q is a Dax.
+Question: Which proposed situation could be true under all the statements?
+Answer: Item Q is marked.
+Reason: The premises force Q to be marked, so the situation is possible under all statements.
 ```
 
 ---
@@ -1080,6 +1088,7 @@ Test formal reasoning from categorical statements, especially the distinction be
 - Do not import real-world knowledge.
 - Use neutral category labels when possible.
 - Avoid accidental conversion errors unless they are intended distractors.
+- Remember that universal negative statements convert validly: `No A are B` is equivalent to `No B are A`.
 - Ensure exactly one answer choice is correct.
 
 ## Domain Option Rules
@@ -1165,11 +1174,15 @@ Generate a simple syllogism with one negative relation.
 - `some are not` unless the conclusion is direct
 - possibility questions
 - ambiguous category overlap
+- distractors that are converse forms of true universal negative conclusions
+- option rationales that reject a logically equivalent negative statement because it is not the intended direct wording
 
 ### Validator Must Check
 
 - negative relation is applied correctly
 - conclusion is entailed or contradicted clearly
+- exactly one option is entailed by the premises
+- no distractor is a converse or restatement of an entailed universal negative conclusion
 
 ### Example Skeleton
 
@@ -1299,6 +1312,8 @@ options: exactly 4
 
 Generate a syllogism where the main difficulty is distinguishing what must be true from what could be true or cannot be true.
 
+For this template, `could be true` means true in at least one valid model. A claim that is true in every valid model still qualifies as something that could be true.
+
 ### Allowed Claim Types
 
 - must be true
@@ -1319,6 +1334,7 @@ Generate a syllogism where the main difficulty is distinguishing what must be tr
 - correct option has the intended modal status
 - all wrong options fail under at least one valid model
 - explanation distinguishes necessity from possibility
+- do not reject a `could be true` answer merely because it is also entailed by the premises; must-true statements are still possible
 
 ### Example Skeleton
 
@@ -1356,6 +1372,9 @@ Test whether the student can infer relative order, exact position, rank, or feas
 - Avoid vague words such as `near`, `beside`, `ahead`, or `behind` unless direction is defined.
 - Difficulty must come from constraint interaction, not from using more names alone.
 - If the answer asks for exact order or exact position, the constraints must imply it uniquely.
+- For arrangement-option questions, verify every answer option against every stated constraint before finalizing.
+- The explanation or option rationales must identify the specific constraint violated by each wrong arrangement.
+- For linear arrangements, two entities are adjacent only when their positions differ by exactly 1. If one or more entities are between them, they are not adjacent.
 
 ## Domain Option Rules
 
@@ -1369,6 +1388,10 @@ Ordering distractors must represent plausible arrangement mistakes:
 - `FEASIBILITY_ERROR`: accepts an arrangement that violates one constraint or rejects a valid one.
 
 For full-order options, every wrong option should satisfy at least one constraint but fail at least one other constraint. Avoid obviously scrambled orders.
+
+For valid-arrangement questions, do not rely on intuition about the intended answer. Build an option audit: mark each option as valid or invalid and name the violated rule for every invalid option. If more than one option is valid, regenerate the constraints or options.
+
+When auditing adjacency, assign each entity a numeric position in the option first. Check `immediately before` as `position(A) + 1 = position(B)` and `not adjacent` as `abs(position(A) - position(B)) > 1`.
 
 ---
 
@@ -1449,12 +1472,14 @@ Generate a ranking question where the student identifies one entity's relative r
 - ambiguous rank language
 - more than one possible rank for the asked entity
 - using actual numeric scores unless the logic, not arithmetic, is the focus
+- presenting a tie/status option as correct unless ties are explicitly stated
 
 ### Validator Must Check
 
 - asked rank is uniquely determined
-- all options use the same rank convention
-- wrong options correspond to reversal, off-by-one rank, or ignored comparison
+- exactly one option is defensible
+- wrong options may include ordinal ranks or plausible status misconceptions such as `Equal 1st`, as long as the premises clearly rule them out
+- wrong options correspond to reversal, off-by-one rank, ignored comparison, or assuming an unstated tie
 
 ### Example Skeleton
 
@@ -1517,44 +1542,66 @@ Answer: B did not finish first.
 ```yaml
 domain: Ordering & Sequencing
 difficulty_level: L2
-answer_mode: VALID_ARRANGEMENT or CANNOT_BE_TRUE
+answer_mode: VALID_ARRANGEMENT
 required_operators:
     - ADJACENCY
     - exactly one of: TRANSITIVE_ORDER, END_POSITION
-entity_count: 4-5
-constraint_count: 3-4
+entity_count: exactly 4
+constraint_count: exactly 3
 options: exactly 4
 ```
 
 ### Contract
 
-Generate an ordering item where the student must respect an adjacency or non-adjacency constraint along with simple ordering.
+Generate an ordering item where the student must choose the only valid left-to-right arrangement. Use exactly four entities, exactly three constraints, and exactly four full-arrangement options.
+
+Use this construction process:
+
+1. First choose the correct full arrangement.
+2. Write three constraints that the correct arrangement satisfies:
+   - one immediate before/after or not-adjacent rule
+   - one simple before/after rule
+   - one end-position or non-end-position rule
+3. Create three wrong options by changing the correct arrangement so that each wrong option violates at least one named rule.
+4. Audit all four options against all three rules before returning.
 
 ### Allowed Forms
 
-- A is not adjacent to B.
-- A is immediately before B.
-- C is not at either end.
-- A must be before C.
+- one immediate before/after rule plus one before/after rule plus one end-position rule
+- one not-adjacent rule plus one before/after rule plus one end-position rule
 
 ### Forbidden
 
 - vague adjacency wording
 - circular seating unless the question explicitly defines circular adjacency
-- multiple valid answers when asking for a single valid arrangement
+- asking which arrangement cannot be true
+- more or fewer than four entities
+- more or fewer than three constraints
+- options that are not complete left-to-right arrangements
+- multiple valid answers
+- no valid answer
 - hidden assumptions about direction
+- explanations that acknowledge another option is valid
+- incorrect option rationales that cite the wrong pair for an adjacency or non-adjacency rule
 
 ### Validator Must Check
 
 - adjacency relation is defined precisely
-- correct option satisfies all constraints
-- wrong options each violate at least one named constraint
+- exactly four entities and exactly three constraints are used
+- every option is a complete left-to-right arrangement of the same four entities
+- the correct option satisfies all constraints
+- every wrong option violates at least one named constraint
+- every option is checked against every stated constraint
+- exactly one option is valid
+- explanation and option rationales name the actual violated constraint for each wrong option
 
 ### Example Skeleton
 
 ```text
-Four files are arranged left to right. A is before C. B is not adjacent to A. D is at the right end.
-Question: Which arrangement is possible?
+Four files are arranged left to right. Rules: B is immediately before D. A is left of C. D is at the right end.
+Question: Which arrangement from left to right is valid?
+Valid answer: B, D, A, C
+Wrong options must each violate at least one named rule.
 ```
 
 ---
@@ -1564,19 +1611,30 @@ Question: Which arrangement is possible?
 ```yaml
 domain: Ordering & Sequencing
 difficulty_level: L3
-answer_mode: POSSIBLE_IMPOSSIBLE or VALID_ARRANGEMENT
+answer_mode: VALID_ARRANGEMENT
 required_operators:
     - MULTI_CONSTRAINT_INTEGRATION
     - FEASIBILITY_CHECK
     - at least two of: TRANSITIVE_ORDER, ADJACENCY, END_POSITION, FIXED_POSITION
-entity_count: 5-6
-constraint_count: 4-5
+entity_count: exactly 5
+constraint_count: exactly 4
 options: exactly 4
 ```
 
 ### Contract
 
-Generate a feasibility question where the student must integrate multiple ordering constraints to decide which arrangement or statement is possible.
+Generate a feasibility question where the student must choose the only valid full left-to-right arrangement from four candidate arrangements. Use exactly five entities, exactly four constraints, and exactly four full-arrangement options.
+
+Use this construction process:
+
+1. First choose the correct full arrangement.
+2. Write four constraints that the correct arrangement satisfies:
+   - one immediate before/after or not-adjacent rule
+   - one simple before/after rule
+   - one end-position or non-end-position rule
+   - one additional fixed-position, before/after, or adjacency rule
+3. Create three wrong options by changing the correct arrangement so that each wrong option violates at least one named rule.
+4. Audit all four options against all four rules before returning.
 
 ### Allowed Forms
 
@@ -1588,21 +1646,34 @@ Generate a feasibility question where the student must integrate multiple orderi
 ### Forbidden
 
 - inconsistent premise set unless the question asks for inconsistency
-- brute-force list of too many entities
+- asking which arrangement is impossible or cannot be true
+- more or fewer than five entities
+- more or fewer than four constraints
+- options that are not complete left-to-right arrangements
 - constraints that are redundant and do not affect feasibility
 - more than one valid option
+- no valid option
+- explanations that acknowledge another option is valid
+- incorrect option rationales that cite the wrong constraint or misread an arrangement
 
 ### Validator Must Check
 
 - all premises are jointly satisfiable
-- exactly one option has the requested feasibility status
-- wrong options fail for specific constraint violations
+- exactly five entities and exactly four constraints are used
+- every option is a complete left-to-right arrangement of the same five entities
+- the correct option satisfies all constraints
+- every wrong option violates at least one named constraint
+- every option is checked against every stated constraint
+- exactly one option is valid
+- explanation and option rationales name the actual violated constraint for each wrong option
 
 ### Example Skeleton
 
 ```text
-Five people stand in a row. A is before B. C is immediately after D. E is not at either end. B is not adjacent to C.
-Question: Which arrangement is possible?
+Five people stand in a row. Rules: K is immediately before M. L is left of O. N is at the right end. O is not adjacent to M.
+Question: Which arrangement from left to right is valid?
+Valid answer: K, M, L, O, N
+Wrong options must each violate at least one named rule.
 ```
 
 ---
@@ -1635,14 +1706,15 @@ Generate a question where the constraints imply one exact position for a target 
 ### Forbidden
 
 - asking for exact position if multiple positions are possible
-- adding constraints that only decorate the puzzle
-- answer choices that can be eliminated by a single constraint only
+- adding constraints that do not help prove the answer or eliminate any option
 - ambiguous left/right or before/after wording
 
 ### Validator Must Check
 
 - target position or full order is unique
-- each constraint is used in the solution path
+- each constraint either helps prove the correct answer or eliminates at least one wrong option
+- do not require every constraint to be individually necessary for uniqueness after removing it
+- for complete-order option questions, every wrong option violates at least one stated constraint and every stated constraint is relevant to at least one option-level distinction
 - wrong options reflect near-miss swaps, ignored constraints, or reversal errors
 
 ### Example Skeleton
@@ -1747,7 +1819,7 @@ Answer: 3
 ```yaml
 domain: Grouping & Assignment
 difficulty_level: L1
-answer_mode: VALID_ASSIGNMENT or DIRECT_MATCH
+answer_mode: VALID_ASSIGNMENT or INFERRED_MATCH
 required_operators:
     - ONE_TO_ONE_MATCH
 entity_count: 3-4
@@ -1759,6 +1831,8 @@ options: exactly 4
 ### Contract
 
 Generate a direct matching question where each entity gets exactly one role and each role is used exactly once.
+
+The asked match must be inferred from one-to-one use and constraints. Do not ask for a match that is explicitly stated in the stem.
 
 ### Allowed Forms
 
@@ -1773,12 +1847,15 @@ Generate a direct matching question where each entity gets exactly one role and 
 - unstated role reuse
 - more than two constraints
 - multiple valid answers for the asked match
+- asking "Which role/box contains X?" when the stem already states X's role/box
+- distractors that are only alternate labels rather than plausible assignment mistakes
 
 ### Validator Must Check
 
 - assignment cardinality is explicit
-- correct match follows directly
+- correct match is inferred from one-to-one assignment, not copied from a stated fact
 - wrong options violate one-to-one use or a stated constraint
+- the stem does not explicitly state the exact asked match
 
 ### Example Skeleton
 
@@ -1809,6 +1886,8 @@ options: exactly 4
 
 Generate a grouping question where group capacity limits must be respected along with basic assignment.
 
+Every answer option must assign every listed item exactly once. Wrong options should be complete assignments that violate only capacity limits, not omissions, duplicates, or wrong total item count.
+
 ### Allowed Forms
 
 - at most/at least/exactly capacity
@@ -1819,14 +1898,19 @@ Generate a grouping question where group capacity limits must be respected along
 
 - ambiguous group labels
 - capacity wording that conflicts with total item count
+- redundant capacity wording such as `at least 2 and exactly 3` for the same group
 - inclusion/exclusion rules unless explicitly added
 - options with wrong total item count
+- options that omit an item
+- options that assign an item more than once
 
 ### Validator Must Check
 
 - capacity limits are satisfiable
 - correct option respects all capacities
-- wrong options fail capacity or completeness
+- every option assigns every item exactly once
+- wrong options preserve complete assignment but fail at least one capacity limit
+- capacity wording is clean and non-redundant
 
 ### Example Skeleton
 
@@ -1856,6 +1940,15 @@ options: exactly 4
 
 Generate a grouping item where the student must combine group size/capacity with one together/apart rule.
 
+For `VALID_GROUPING` questions, use this construction process:
+
+1. First choose the correct complete grouping.
+2. Write one capacity/size rule and one together/apart rule that the correct grouping satisfies.
+3. Create three wrong complete groupings. Each wrong option must assign every listed item exactly once, but must violate at least one named rule.
+4. Audit all four options against both the capacity rule and the together/apart rule before returning. If more than one option satisfies both rules, regenerate one of the options.
+
+Important audit rule: if two entities must be together, they may be together in any labeled group whose size/capacity is satisfied. Do not mark an option wrong merely because the together-pair appears in a different group from the intended correct option.
+
 ### Allowed Forms
 
 - A and B must be in the same group.
@@ -1867,13 +1960,20 @@ Generate a grouping item where the student must combine group size/capacity with
 - multiple inclusion/exclusion interactions
 - unspecified whether groups are labeled
 - more than one correct grouping when asking for the valid grouping
+- any wrong option that also satisfies all capacity and together/apart rules
+- treating a together-pair in the smaller/larger group as invalid when that group has the required size
+- options that omit an item or assign an item more than once
 - role suitability assumptions
 
 ### Validator Must Check
 
 - together/apart rule is applied correctly
 - capacity and assignment completeness are satisfied
+- every option assigns every listed item exactly once
 - wrong options represent ignored capacity, ignored inclusion, or ignored exclusion
+- every option is checked against every stated rule
+- exactly one option satisfies both capacity and together/apart rules
+- if a together-pair appears in a non-correct option, verify whether that option is still valid before rejecting it
 
 ### Example Skeleton
 
@@ -1889,40 +1989,75 @@ Question: Which team containing A is possible?
 ```yaml
 domain: Grouping & Assignment
 difficulty_level: L3
-answer_mode: FEASIBLE_INFEASIBLE or VALID_GROUPING
+answer_mode: VALID_GROUPING
 required_operators:
     - FEASIBILITY_CHECK
     - CAPACITY_LIMIT
-    - at least two of: INCLUSION_RULE, EXCLUSION_RULE, ROLE_CONSTRAINT
-item_count: 6-8
-group_count: 2-4
-constraint_count: 4-5
+    - INCLUSION_RULE
+    - EXCLUSION_RULE
+    - ROLE_CONSTRAINT
+item_count: exactly 8
+group_count: exactly 3
+constraint_count: exactly 4 non-capacity constraints, plus exact group sizes
 options: exactly 4
 ```
 
 ### Contract
 
-Generate a feasibility question where multiple grouping constraints interact.
+Generate a valid-grouping question where multiple grouping constraints interact. Use exactly eight entities, exactly three labeled groups, and exact group sizes of 3, 3, and 2.
+
+Use this construction process:
+
+1. First choose one correct complete grouping that satisfies the exact group sizes.
+2. Write exactly four non-capacity constraints that the correct grouping satisfies:
+   - one same-group constraint
+   - one apart/different-group constraint
+   - one must-be-in-a-specific-group constraint
+   - one cannot-be-in-a-specific-group constraint
+3. Create three wrong complete groupings:
+   - one wrong option must violate the same-group constraint
+   - one wrong option must violate the must-be-in-a-specific-group constraint
+   - one wrong option must violate either the apart/different-group constraint or the cannot-be-in-a-specific-group constraint
+4. Every option must assign all eight entities exactly once. Prefer wrong options that preserve the 3/3/2 group sizes, unless the intended violation is a capacity violation explicitly named in the rationale.
+5. Audit all four options against every stated constraint before returning. If more than one option satisfies all constraints, regenerate one of the options.
+6. In `metadata.option_rationales`, every wrong option must name the exact violated constraint. No wrong-option rationale may say or imply that the option satisfies all constraints.
+
+Important audit rule: a grouping can be valid even when pairs or fixed-role entities appear in a different valid location than the intended answer. Reject an option only for violating a stated constraint, not for differing from the chosen correct grouping.
 
 ### Allowed Forms
 
 - teams with exact sizes
-- projects with capacity limits
 - people assigned to rooms, shifts, or committees
-- compatibility and incompatibility rules
+- compatibility and incompatibility rules combined with fixed-group rules
 
 ### Forbidden
 
 - unsatisfiable premise set unless testing inconsistency
+- asking whether a grouping is feasible or infeasible instead of asking for the valid grouping
 - constraints that duplicate each other
 - large brute-force assignments
+- more or fewer than eight entities
+- more or fewer than three labeled groups
+- group sizes other than exact 3, 3, and 2
+- more or fewer than four non-capacity constraints
 - more than one valid option
+- no valid option
+- options that omit an item or assign an item more than once
+- any wrong option that satisfies all stated constraints
+- treating a different but constraint-satisfying grouping as invalid
+- option rationales that acknowledge a distractor as valid or satisfying all constraints
 
 ### Validator Must Check
 
 - premises are jointly satisfiable
-- correct option has the requested feasibility status
+- exactly eight entities, three labeled groups, and exact group sizes of 3, 3, and 2 are used
+- exactly four non-capacity constraints are used: one same-group, one apart/different-group, one must-be-in-specific-group, and one cannot-be-in-specific-group
 - each wrong option violates at least one specific constraint
+- every option assigns every listed item exactly once
+- every option is checked against every stated capacity, inclusion, exclusion, and role constraint
+- exactly one option satisfies all stated constraints
+- option rationales do not acknowledge a wrong option as satisfying all constraints
+- wrong-option rationales name the exact violated constraint
 
 ### Example Skeleton
 
@@ -1938,20 +2073,45 @@ Question: Which team containing C is feasible?
 ```yaml
 domain: Grouping & Assignment
 difficulty_level: L3
-answer_mode: UNIQUE_ASSIGNMENT or EXACT_MATCH
+answer_mode: UNIQUE_ASSIGNMENT
 required_operators:
     - UNIQUE_ASSIGNMENT
     - ONE_TO_ONE_MATCH
-    - at least two of: EXCLUSION_RULE, ROLE_CONSTRAINT, INCLUSION_RULE
-entity_count: 5-6
-role_count: same as entity_count
-constraint_count: 4-6
+    - ROLE_CONSTRAINT
+    - EXCLUSION_RULE
+entity_count: exactly 5
+role_count: exactly 5 ordered roles
+constraint_count: exactly 5
 options: exactly 4
 ```
 
 ### Contract
 
-Generate an assignment puzzle where exactly one complete assignment satisfies all constraints.
+Generate an assignment puzzle where exactly one complete assignment satisfies all constraints. Use exactly five entities and exactly five ordered roles. The role order must be explicitly stated in the stem.
+
+Use this construction recipe exactly:
+
+1. Choose five ordered roles `R1, R2, R3, R4, R5`.
+2. Choose five entities `A, B, C, D, E`.
+3. Build the unique correct assignment with this structure:
+   - `A -> R2`
+   - `B -> R3`
+   - `C -> R4`
+   - `D -> R1`
+   - `E -> R5`
+4. Write these five constraints using the surface names:
+   - `A` is assigned to `R2`.
+   - `B` is assigned to the role immediately after `A`'s role in the stated role order.
+   - `C` is not assigned to `R1` or `R5`.
+   - `D` is assigned to a role before `C`'s role in the stated role order.
+   - `E` is not assigned to `R4`.
+5. Create four complete one-to-one assignment options:
+   - one option is the unique correct assignment
+   - one wrong option must violate the immediate-after constraint
+   - one wrong option must violate the `C` exclusion constraint
+   - one wrong option must violate the `D before C` or `E not R4` constraint
+6. Audit all four options against all five constraints before returning. If more than one option satisfies all constraints, regenerate the wrong options.
+7. In `metadata.option_rationales`, every wrong option must name the exact violated constraint. No wrong-option rationale may say or imply that the option satisfies all constraints.
 
 ### Allowed Forms
 
@@ -1959,25 +2119,39 @@ Generate an assignment puzzle where exactly one complete assignment satisfies al
 - tasks to days
 - items to boxes
 - students to subjects
+- ordered roles such as days, boxes, ranked slots, stations, or alphabetically listed categories
 
 ### Forbidden
 
 - multiple valid complete assignments
+- more or fewer than five entities
+- more or fewer than five roles
+- roles without an explicitly stated order
+- changing the required construction recipe
 - relying on unstated preferences
 - constraints that can be ignored without changing the answer
 - options that fail simple one-to-one assignment before testing logic
+- any wrong option that satisfies all stated constraints
+- option rationales that reject an option using unstated uniqueness assumptions instead of a named violated constraint
+- option rationales that acknowledge a distractor as valid or satisfying all constraints
 
 ### Validator Must Check
 
 - exactly one assignment satisfies all constraints
-- asked match or full assignment is unique
-- wrong options are near-valid but violate one or two constraints
+- exactly five entities and five ordered roles are used
+- role order is explicitly stated
+- the constraints follow the required recipe and force the unique assignment
+- every option is a complete one-to-one assignment
+- every wrong option violates at least one named constraint
+- wrong-option rationales name the exact violated constraint
+- no wrong-option rationale acknowledges a distractor as valid or satisfying all constraints
 
 ### Example Skeleton
 
 ```text
-Five people are assigned to five distinct days. A is not Monday or Tuesday. B is immediately after C. D is before A. E is not Friday.
+Five people are assigned to five ordered days Monday through Friday. A is Tuesday. B is assigned to the day immediately after A's day. C is not Monday or Friday. D is before C. E is not Thursday.
 Question: Which complete assignment is valid?
+Valid answer: D-Monday, A-Tuesday, B-Wednesday, C-Thursday, E-Friday.
 ```
 
 ---
@@ -2129,13 +2303,19 @@ options: exactly 4
 
 Generate a conditional chain where the correct conclusion requires linking two or three if-then statements.
 
+This template is forward-chain only. The stem must give a positive starting fact that triggers the first conditional, and the correct answer must be the final positive consequence of the chain.
+
 ### Allowed Forms
 
 - If A then B. If B then C. A. Therefore C.
-- If A then B. If B then C. Not C. Therefore not A.
+- If A then B. If B then C. If C then D. A. Therefore D.
 
 ### Forbidden
 
+- contrapositive reasoning
+- `not C, therefore not A` chain forms
+- negative starting facts such as `not logged`, `not approved`, or `not completed`
+- conclusions that require `MODUS_TOLLENS`
 - exceptions
 - broken chain with missing link
 - more than three links
@@ -2143,9 +2323,10 @@ Generate a conditional chain where the correct conclusion requires linking two o
 
 ### Validator Must Check
 
-- chain is valid in the intended direction
+- chain is valid in the forward direction from the positive starting fact
 - correct conclusion follows from all required links
-- wrong options reflect partial chain, reversal, or missing contrapositive
+- no contrapositive, inverse, or negative-chain reasoning is needed for the correct answer
+- wrong options reflect partial-chain reasoning, reversal errors, or unsupported conclusions
 
 ### Example Skeleton
 
@@ -2307,11 +2488,22 @@ options: exactly 4
 
 Generate a two-person truth/lie item with exactly one truth-teller and one liar. The answer should follow by testing the two possible assignments.
 
+Use this construction recipe exactly:
+
+1. State that exactly one of A and B is a truth-teller and the other is a liar.
+2. A says: "A and B are different types."
+3. B says: "A is a liar."
+4. The unique consistent assignment is A truth-teller and B liar.
+5. Audit both possible assignments:
+   - If A is truth-teller and B is liar, A's statement is true and B's statement is false.
+   - If A is liar and B is truth-teller, A's statement is true, so A cannot be a liar.
+
 ### Allowed Forms
 
 - A makes one claim about A or B.
 - B makes one claim about A or B.
 - One claim may be simple self-description if it does not create paradox.
+- A may make the premise-entailed claim that A and B are different types; this is the preferred L1 anchor.
 
 ### Forbidden
 
@@ -2319,18 +2511,25 @@ Generate a two-person truth/lie item with exactly one truth-teller and one liar.
 - more than two statements
 - conditional claims
 - paradoxical statements such as `I am lying`
+- symmetric cross-accusations such as A says "B is a liar" and B says "A is a liar"
+- symmetric cross-claims that make both swapped assignments valid
+- statement pairs that make no assignment valid
+- explanations that acknowledge both assignments as possible
 
 ### Validator Must Check
 
 - exactly one assignment satisfies both statements
+- both possible one-truth-one-lie assignments are explicitly audited
 - correct option identifies the truth-teller/liar statuses
 - wrong options represent swapped or inconsistent assignments
+- the swapped assignment fails because at least one speaker's truth/lie behavior conflicts with their statement truth value
 
 ### Example Skeleton
 
 ```text
-A says, "B is the liar." B says, "A and I are different types."
+A says, "A and B are different types." B says, "A is a liar."
 Given exactly one truth-teller and one liar, identify each person.
+Answer: A is the truth-teller and B is the liar.
 ```
 
 ---
@@ -2340,46 +2539,75 @@ Given exactly one truth-teller and one liar, identify each person.
 ```yaml
 domain: Binary Logic & Truth/Lie
 difficulty_level: L2
-answer_mode: TRUE_STATEMENT_SET or VALID_CONCLUSION
+answer_mode: TRUE_STATEMENT_SET
 required_operators:
     - FIXED_TRUE_COUNT
     - STATEMENT_CONSISTENCY
-statement_count: 3-4
-true_count: exactly 1, 2, or 3 as stated
+statement_count: exactly 4
+true_count: exactly 2
 options: exactly 4
 ```
 
 ### Contract
 
-Generate a question with several statements and a fixed number of true statements. The student must identify which statement set or conclusion is consistent.
+Generate a question with four statements and the condition that exactly two statements are true. The student must identify the true statement set.
+
+Use this construction recipe exactly:
+
+1. State that exactly one of four mutually exclusive possibilities `P`, `Q`, `R`, and `S` is selected.
+2. State that exactly two of the following four statements are true.
+3. Use these four statement forms with surface names substituted:
+   - Statement 1: The selected possibility is not `P`.
+   - Statement 2: The selected possibility is either `R` or `S`.
+   - Statement 3: The selected possibility is `S`.
+   - Statement 4: The selected possibility is both `P` and `Q`.
+4. The unique consistent selection is `R`, making exactly Statements 1 and 2 true.
+5. Options must be four statement sets, with the correct option saying exactly Statements 1 and 2 are true.
+6. Audit all four possible selections before returning:
+   - `P` makes zero statements true.
+   - `Q` makes only Statement 1 true.
+   - `R` makes Statements 1 and 2 true.
+   - `S` makes Statements 1, 2, and 3 true.
 
 ### Allowed Forms
 
 - exactly two of the following statements are true
-- exactly one person is telling the truth
-- exactly three claims are correct
+- exactly one option, card, box, item, or label is selected
+- four ordinary claims about the selected possibility
 
 ### Forbidden
 
 - unclear whether statements are independent
-- more than four statements
+- more or fewer than four statements
+- any true count other than exactly two
+- self-referential statements such as `Statement 2 is false` or `Statement 4 is true`
+- exactly-one or exactly-three true-count variants
+- truth/liar speaker variants
 - multiple statement sets satisfying the true count
 - impossible true-count condition
+- options that identify a selected possibility instead of the set of true statements
+- explanations that do not audit all four possible selections
 
 ### Validator Must Check
 
 - exactly one option matches the stated true count
+- exactly four mutually exclusive possibilities are used
+- exactly four statements are used
+- exactly two statements are true under the unique consistent selection
 - truth values are internally consistent
 - wrong options have too many or too few true statements
+- explanation audits all four possible selections or otherwise proves the 0/1/2/3 true-count split
 
 ### Example Skeleton
 
 ```text
-Exactly two of these statements are true:
-I. A is selected.
-II. B is selected.
-III. A and B are both selected.
-Question: Which selection is consistent?
+Exactly one of cards P, Q, R, and S is selected. Exactly two of these statements are true:
+1. The selected card is not P.
+2. The selected card is either R or S.
+3. The selected card is S.
+4. The selected card is both P and Q.
+Question: Which statements are true?
+Answer: Statements 1 and 2.
 ```
 
 ---
@@ -2389,43 +2617,70 @@ Question: Which selection is consistent?
 ```yaml
 domain: Binary Logic & Truth/Lie
 difficulty_level: L2
-answer_mode: VALID_ASSIGNMENT or TRUE_FALSE_STATUS
+answer_mode: VALID_ASSIGNMENT
 required_operators:
+    - TRUTH_TELLER_LIAR
     - CONDITIONAL_CLAIM
     - STATEMENT_CONSISTENCY
-person_count: 2-3
-statement_count: 2-3
+    - CASE_SPLIT
+    - UNIQUE_WORLD
+person_count: exactly 2
+statement_count: exactly 2
 options: exactly 4
 ```
 
 ### Contract
 
-Generate a truth/lie item where at least one person's statement contains a conditional claim.
+Generate a two-person truth/lie item where one statement contains a conditional claim and exactly one complete assignment is consistent.
+
+Use this construction recipe exactly:
+
+1. State that A and B are each either truthful or lying.
+2. A says: "If B is truthful, then I am lying."
+3. B says: "A is lying."
+4. Ask which complete assignment is consistent.
+5. Use exactly four assignment options: both truthful, A truthful/B lying, A lying/B truthful, both lying.
+6. The unique correct assignment is A truthful and B lying.
+7. Audit all four options before returning:
+   - both truthful: A's conditional is false, so A cannot be truthful.
+   - A truthful/B lying: A's conditional is true because the antecedent is false, and B's statement is false, so this assignment is consistent.
+   - A lying/B truthful: A's conditional is true, so A cannot be lying.
+   - both lying: A's conditional is true, so A cannot be lying.
+8. Include a formal option audit in the explanation or metadata.
 
 ### Allowed Forms
 
-- A says, "If B is truthful, then C is lying."
-- B says, "If I am lying, then A is truthful."
-- Fixed truth-teller/liar roles or fixed number of true statements
+- A says, "If B is truthful, then I am lying."
+- B makes one non-conditional claim about A or B.
+- complete assignments for A and B only
+- two-person assignment options with one conditional claim and one non-conditional claim
 
 ### Forbidden
 
+- three-person items for this template
+- references to a third person's truth status
 - paradoxical conditionals
 - more than one nested conditional
 - ambiguous truth status of the conditional
 - multiple consistent assignments when asking for one assignment
+- rationales that say a conditional is true or false without evaluating antecedent and consequent
 
 ### Validator Must Check
 
 - conditional truth values are evaluated formally
-- exactly one answer option has the intended status
-- wrong options reflect conditional evaluation errors or ignored statements
+- exactly two people and exactly two statements are used
+- exactly one answer option is a consistent complete assignment
+- all four possible assignments are audited
+- wrong options are the other three complete assignments and may share the same broad error family
+- every wrong-option rationale names the exact statement that conflicts with the proposed assignment
+- do not fail the rigid recipe merely because more than one wrong option conflicts with A's conditional; exhaustive assignment coverage is more important than distinct distractor categories here
 
 ### Example Skeleton
 
 ```text
-A says, "If B is truthful, then C is lying." B says, "C is truthful." C says, "A is lying."
+A says, "If B is truthful, then I am lying." B says, "A is lying."
 Question: Which assignment is consistent?
+Answer: A is truthful and B is lying.
 ```
 
 ---
@@ -2435,46 +2690,75 @@ Question: Which assignment is consistent?
 ```yaml
 domain: Binary Logic & Truth/Lie
 difficulty_level: L3
-answer_mode: UNIQUE_WORLD or COMPLETE_ASSIGNMENT
+answer_mode: UNIQUE_WORLD
 required_operators:
+    - TRUTH_TELLER_LIAR
+    - FIXED_TRUE_COUNT
     - UNIQUE_WORLD
     - CASE_SPLIT
-    - at least two of: TRUTH_TELLER_LIAR, FIXED_TRUE_COUNT, CONDITIONAL_CLAIM, SELF_REFERENCE_LIGHT
-person_count: 3-4
-statement_count: 3-4
+person_count: exactly 3
+statement_count: exactly 3
+truth_liar_mix: exactly one liar
 options: exactly 4
 ```
 
 ### Contract
 
-Generate a truth/lie puzzle where the student must deduce the unique internally consistent assignment of statuses or truth values.
+Generate a truth/lie puzzle where the student must deduce the unique internally consistent assignment of statuses. Use exactly three people and state that exactly one is a liar.
+
+Use this construction recipe exactly:
+
+1. State that A, B, and C are each either truth-tellers or liars, and exactly one of them is a liar.
+2. A says: "B is a liar."
+3. B says: "A is a liar."
+4. C says: "B is a truth-teller."
+5. Ask which assignment is the unique internally consistent world.
+6. The unique correct assignment is A liar, B truth-teller, C truth-teller.
+7. Use exactly four options:
+   - A liar, B truth-teller, C truth-teller
+   - A truth-teller, B liar, C truth-teller
+   - A truth-teller, B truth-teller, C liar
+   - A truth-teller, B truth-teller, C truth-teller
+8. Audit all four options before returning:
+   - A liar/B truth-teller/C truth-teller: A's statement is false, B's statement is true, and C's statement is true.
+   - B liar option: C's statement is false even though C is assigned truth-teller.
+   - C liar option: A's statement is false even though A is assigned truth-teller.
+   - all-truthful option: violates the exactly-one-liar rule and makes A's statement false.
 
 ### Allowed Forms
 
-- three or four speakers with claims about each other
-- exactly N truth-tellers
-- conditionals inside one or two claims
-- light self-reference that remains decidable
+- three speakers with claims about each other
+- exactly one liar
+- complete status assignment options
 
 ### Forbidden
 
 - paradoxes
 - no-solution or multiple-solution setups
 - nested self-reference
+- conditionals
+- self-reference
+- more or fewer than three speakers
+- more or fewer than three statements
+- any truth-count rule other than exactly one liar
+- explanations that identify a contradiction and still select that contradicted option
 - relying on personalities or real-world plausibility
 
 ### Validator Must Check
 
 - exactly one complete assignment satisfies all statements
+- exactly three people, exactly three statements, and exactly one liar are used
 - every wrong option fails at least one statement or true-count constraint
-- explanation shows a case split or contradiction elimination
+- explanation shows a case split or contradiction elimination for all four options
+- the selected correct option has each truth-teller making a true statement and the liar making a false statement
 
 ### Example Skeleton
 
 ```text
 Three people A, B, C each either always tell the truth or always lie. Exactly one is a liar.
-A says B is truthful. B says C is lying. C says A and B are the same type.
-Question: Who is the liar?
+A says, "B is a liar." B says, "A is a liar." C says, "B is a truth-teller."
+Question: Which assignment is the unique internally consistent world?
+Answer: A is the liar; B and C are truth-tellers.
 ```
 
 ---

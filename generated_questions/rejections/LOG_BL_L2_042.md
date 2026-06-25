@@ -1,0 +1,5 @@
+- Bad pattern: three-person item where C's status is referenced but not governed by a clear status-count rule.
+- Use a two-person recipe with exactly one conditional claim and one non-conditional claim. Audit all four assignments before finalizing.
+- Every wrong-option rationale must formally evaluate the relevant conditional and name the exact statement that conflicts with the proposed assignment.
+- Do not reject the rigid two-person recipe merely because multiple wrong options conflict with A's conditional. The four options are exhaustive assignments, so uniqueness and formal consistency are the main checks.
+- Metadata reasoning operators should include `TRUTH_TELLER_LIAR`, `CONDITIONAL_CLAIM`, `STATEMENT_CONSISTENCY`, `CASE_SPLIT`, and `UNIQUE_WORLD`.

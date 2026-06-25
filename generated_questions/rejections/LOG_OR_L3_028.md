@@ -1,0 +1,5 @@
+- Do not reject a complete-order item merely because the correct order is already strongly suggested by a subset of constraints.
+- A constraint is acceptable if it helps prove the answer or eliminates at least one wrong option.
+- Do not require every constraint to be individually necessary for uniqueness after removing it.
+- Example acceptable pattern: K at left end, O at right end, L immediately before M, and N left of L. The rule `N left of L` eliminates `K, L, M, N, O`, so it is not decorative.
+- For complete-order options, validate by auditing each option against every rule and confirming exactly one option satisfies all rules.

@@ -1,0 +1,4 @@
+- Bad pattern: self-referential statement systems such as `Statement 2 is false` / `Statement 3 is true`; these are easy to miscount or make inconsistent.
+- Bad pattern: declaring exactly three statements true when the actual truth vector has exactly two true statements.
+- Use the rigid L2 recipe: exactly one of four possibilities P/Q/R/S is selected, exactly two statements are true, and the truth-count split across P/Q/R/S is 0/1/2/3.
+- The unique correct true statement set must be Statements 1 and 2. The explanation must audit all four possible selections.

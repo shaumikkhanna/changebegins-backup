@@ -1,0 +1,4 @@
+- Bad pattern: correct answer requires contrapositive reasoning, such as `If sealed then labeled; if labeled then logged; not logged; therefore not sealed`.
+- `LOG_CR_L2_037` is forward-chain only: use `If A then B; If B then C; A; therefore C` or a three-link positive chain.
+- Do not use negative starting facts or `not C, therefore not A` forms; those require `MODUS_TOLLENS`, which is not a required operator for this template.
+- Distractors should target partial-chain reasoning, reversal errors, or unsupported conclusions without making the solution itself contrapositive.
