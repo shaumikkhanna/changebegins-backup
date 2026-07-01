@@ -29,6 +29,7 @@ The important design choice is:
   - Minimal stdout-only wrapper for quick generation testing.
   - Assumes `build`, generation mode, `--count 3`, and `--context non-engineering`.
   - Prints a compact system prompt and user prompt, with no explanatory wrapper text and no file output.
+  - Compact generation prompts include a global seed-use rule: n8n may inject a seed before the prompt, and the model should use it for deterministic allowed variation and echo it in the output JSON.
   - Use `--full` to print the original rich harness generation prompt.
   - Use `--validation` to print a compact validation prompt.
   - Use `--validation --full` to print the rich harness validation prompt.

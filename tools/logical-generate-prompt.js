@@ -125,6 +125,9 @@ Domain: ${promptBundle.domain}
 Difficulty: ${promptBundle.difficultyLevel}
 Context: ${context}
 
+SEED USE RULE:
+The calling workflow may inject a seed before this prompt or provide it in the seed field. Use the provided seed as a deterministic source for allowed variation such as names, labels, surface context, option order, constraint order, and template variants. Do not mention the seed in the question text. Echo the exact provided seed in the output JSON seed field. If no seed is provided, use the current UTC unix timestamp in milliseconds as the seed.
+
 Return parseable JSON matching this shape. Replace all placeholders with real JSON values:
 {
   "templateId": "${templateId}",
