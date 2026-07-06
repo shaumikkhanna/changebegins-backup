@@ -1,0 +1,3 @@
+- Bad pattern: row seating constraints force two named people into the same seat, such as Amit-Priya-Sonia consecutive, Tina at the right end, and Ravi second left of Sonia placing Ravi in Amit's position.
+- Before returning, assign numeric seats or grid coordinates to every entity and verify no two entities occupy the same position.
+- Do not mark a relative-position answer correct if the complete placement is impossible or if the asked relation is only inferred from an inconsistent partial chain.

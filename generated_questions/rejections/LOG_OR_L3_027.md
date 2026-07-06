@@ -4,6 +4,11 @@
 - Audit every option against every stated rule. Exactly one option may satisfy all rules.
 - Do not output an item if another option also satisfies all constraints; regenerate internally.
 - Bad pattern: both A and B satisfy `K immediately before M`, `L left of O`, `N at the right end`, and `O not adjacent to M`.
+- Bad pattern: both `Alice, Dan, Ben, Clara, Emma` and `Ben, Clara, Alice, Dan, Emma` satisfy `Ben immediately before Clara`, `Alice before Dan`, `Emma last`, and `Dan not adjacent to Clara`.
+- Avoid weak non-adjacency constraints when they do not pin the immediate pair/block. Use a fixed-position rule such as `Ben is second` or `Ben is first` / `Clara is second`.
+- Bad pattern: marked correct option violates a stated rule, such as `A, B, C, D, E` violating `B is not adjacent to C`, while another option is actually valid.
 - Bad pattern: explanation says an option violates a rule but misreads the actual order shown in that option.
+- Do not retain a source/dataset key if the audit shows it violates a constraint. Set the key only after auditing all options.
+- Do not include meta-commentary such as `dataset's own reason flags...` or `source explanation...` in the final explanation.
 - Adjacency audit rule: assign numeric positions first. In `K, M, L, N, O`, M is position 2 and L is position 3, so L and M are adjacent and this option violates `L is not adjacent to M`.
 - Do not mark an option valid if any named non-adjacent pair has positions differing by exactly 1.

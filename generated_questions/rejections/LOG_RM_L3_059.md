@@ -1,0 +1,3 @@
+- Bad pattern: duplicate answer options, such as both A and D being `3 filled triangles`, while only one is marked correct.
+- Normalize every option by count, fill, shape, position, and orientation before finalizing. All four normalized options must be distinct.
+- Do not describe a duplicate of the correct completion as wrong; regenerate options instead.

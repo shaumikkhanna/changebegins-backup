@@ -1,0 +1,3 @@
+- Bad pattern: using a valid intermediate conclusion as a distractor, such as `No librarians are technology skeptics` when the premises state all librarians are book enthusiasts and no book enthusiasts are technology skeptics.
+- Before finalizing options, list all valid conclusions from every premise subset and from the full three-premise chain. The only valid listed conclusion may be the keyed answer.
+- Wrong options must be invalid, not merely less complete or based on fewer premises than the intended answer.

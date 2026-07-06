@@ -57,7 +57,7 @@ function compactFocusedContract(contract) {
 		.replace(/\n### The LLM Must Preserve[\s\S]*?(?=\n### The LLM Must Not Do)/, "\n")
 		.replace(
 			/\n### Option and Distractor Design Rules[\s\S]*?(?=\n---\n\n# Domain )/,
-			"\n### Distractor Rules\n\nUse exactly one correct option and three plausible, distinct diagnostic distractors. Avoid `all of the above`, `none of the above`, `cannot say`, and `data insufficient` unless this template explicitly permits them.\n\n",
+			"\n### Distractor Rules\n\nUse exactly one correct option and three plausible, distinct diagnostic distractors. All four option texts must be distinct after trimming whitespace, normalizing case, and normalizing equivalent notation. Never repeat the same answer value, relation, object, or completion under two labels; if two options normalize to the same answer, regenerate the options before returning. Avoid `all of the above`, `none of the above`, `cannot say`, and `data insufficient` unless this template explicitly permits them.\n\n",
 		)
 		.replace(/\n## Domain Purpose[\s\S]*?(?=\n## )/, "\n")
 		.replace(/\n## Domain Operators[\s\S]*?(?=\n## )/, "\n")

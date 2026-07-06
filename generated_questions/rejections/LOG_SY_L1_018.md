@@ -1,0 +1,3 @@
+- Bad pattern: using a weaker existential conclusion as a distractor, such as `Some imaginative people are musicians` alongside the correct `All musicians are imaginative`.
+- For this L1 universal-chain template, do not use `some`, `at least one`, or existential wording in any answer option.
+- When asking which conclusion can be validly drawn, every wrong option must be invalid under the premises, not a weaker valid consequence of the correct universal chain.

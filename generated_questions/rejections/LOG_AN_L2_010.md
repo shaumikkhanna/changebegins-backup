@@ -2,3 +2,7 @@
 - Do not output self-correction text such as "Wait" or "must be adjusted"; regenerate internally before returning the final item.
 - The selected option text, correctAnswer, metadata.correct_answer, explanation, and option_rationales must all refer to the same actual option.
 - Good model pattern: writing tools used for making marks on paper; Pencil, Pen, and Marker fit, Eraser is related but has the opposite function.
+- Bad pattern: odd-one-out based on first letter, last letter, or vowel/consonant ending, such as Piano/Grape/Lemon/Mango where Piano is also semantically odd because it is not a food.
+- Avoid word-form edge-letter oddities for this template. Prefer numeric parity plus odd divisibility, shape type plus fill, or category plus function.
+- Bad pattern: three identical options and one changed option, such as A/B/C all `Outlined triangle` and D `Filled triangle`. This is a single-attribute L1 oddity, not L2 competing attributes.
+- For shape/fill classification, option text must be distinct and the correct odd option must require checking both intended attributes, not just one changed word.

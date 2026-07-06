@@ -1,0 +1,792 @@
+[
+	{
+		"//": "This is a valid question",
+		"id": "022e4137-261f-492d-b3b5-f1c63435dfdb",
+		"template_id": "LOG_AN_L2_009",
+		"question_text": "Complete the analogy: CATERPILLAR is to BUTTERFLY as SEED is to ___",
+		"reason": "The analogy has a fundamental issue. While the explanation defends TREE as correct, FRUIT is equally defensible because: (1) seeds commonly develop into plants that produce fruit as their mature reproductive stage, mirroring the caterpillar-to-butterfly transformation, and (2) TREE is overly specific since many seeds don't become trees. A reasonable test-taker could defensibly choose either A or C.",
+		"options": [
+			{
+				"label": "A",
+				"text": "FRUIT",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "ROOT",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "TREE",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "SOIL",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "CATERPILLAR and BUTTERFLY are the same organism (insect) at different life stages, with caterpillar being the early developmental stage. Similarly, SEED and TREE are the same organism (plant) at different life stages, with seed being the early developmental stage. Both relations are preserved: early-to-mature developmental sequence AND same organism category."
+	},
+	{
+		"id": "978d9516-53c3-45a7-836a-aa3113dd5911",
+		"template_id": "LOG_AN_L2_010",
+		"question_text": "Which word is the odd one out?",
+		"reason": "The explanation contains a factual error. It states that 'All words have exactly 5 letters' but Piano has 5 letters, Grape has 5 letters, Lemon has 5 letters, and Mango has 5 letters - this part is correct. However, the explanation's logic is flawed because multiple valid patterns exist: Lemon could be the odd one out for ending in 'n' (as stated), but Grape could equally be defended as the odd one out because it's the only word that doesn't end in 'o' OR doesn't relate to music/food categories. More critically, Piano is the only non-food item, making it equally defensible as the correct answer. This creates ambiguity where two or more options are equally and reasonably defensible as correct.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Piano",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Grape",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Lemon",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "Mango",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "All words have exactly 5 letters, but Lemon is the only word that does not end with a vowel. Piano ends with 'o', Grape ends with 'e', and Mango ends with 'o', while Lemon ends with 'n'."
+	},
+	{
+		"id": "8347e12f-abe4-4349-b94b-22f8c7dfc49a",
+		"template_id": "LOG_CR_L2_037",
+		"question_text": "Consider the following rules:\n\nRule 1: If a book is on the reserved list, then it requires special permission to borrow.\nRule 2: If a book requires special permission to borrow, then it must be returned within 3 days.\nRule 3: If a book must be returned within 3 days, then late fees are doubled.\n\nA particular book is on the reserved list. What can be validly concluded?",
+		"reason": "Multiple options are equally defensible as correct. Options A, B, and D all represent valid logical conclusions from the given premises through modus ponens. The explanation attempts to distinguish D as 'the final consequence of the complete three-link chain,' but this is an arbitrary distinction - A and B are equally valid conclusions from the same logical chain. A test-taker applying correct logical reasoning would have no principled way to eliminate A and B in favor of D.",
+		"options": [
+			{
+				"label": "A",
+				"text": "The book requires special permission to borrow.",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "The book must be returned within 3 days.",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "If late fees are doubled, then the book is on the reserved list.",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Late fees are doubled for this book.",
+				"is_correct": true
+			}
+		],
+		"correct_option": "D",
+		"correct_option_explanation": "Following the chain: the book is on the reserved list (given), so by Rule 1 it requires special permission, so by Rule 2 it must be returned within 3 days, so by Rule 3 late fees are doubled. This is the final consequence of the complete three-link chain."
+	},
+	{
+		"id": "43075580-b04b-4b02-9f9f-da3234031620",
+		"template_id": "LOG_GR_L2_032",
+		"question_text": "A library is organizing 6 volunteers (P, Q, R, S, T, U) into two reading groups for a summer program. Group 1 must have exactly 4 volunteers, and Group 2 must have exactly 2 volunteers. Additionally, volunteers R and S must be in the same group. Which of the following is a valid assignment?",
+		"reason": "Option C is also a valid assignment. It places R and S together in Group 2 (satisfying the constraint that they must be in the same group), Group 1 has exactly 4 volunteers {P, Q, T, U}, and Group 2 has exactly 2 volunteers {R, S}. Both options B and C are correct answers, making this question ambiguous.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Group 1: {P, Q, R, T}; Group 2: {S, U}",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Group 1: {P, Q, R, S}; Group 2: {T, U}",
+				"is_correct": true
+			},
+			{
+				"label": "C",
+				"text": "Group 1: {P, Q, T, U}; Group 2: {R, S}",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Group 1: {P, R, S}; Group 2: {Q, T, U}",
+				"is_correct": false
+			}
+		],
+		"correct_option": "B",
+		"correct_option_explanation": "This assignment satisfies both constraints: Group 1 has exactly 4 volunteers and Group 2 has exactly 2 volunteers (meeting the capacity requirement), and R and S are both in Group 1 (meeting the inclusion requirement that they must be in the same group)."
+	},
+	{
+		"id": "e38af692-6ecb-49e2-8473-f5878c06a513",
+		"template_id": "LOG_GR_L3_034",
+		"question_text": "Five volunteers—Alex, Blake, Casey, Dana, and Emery—must be assigned to five ordered volunteer roles: Position 1, Position 2, Position 3, Position 4, and Position 5.\n\nConstraints:\n1. Blake is assigned to Position 4.\n2. Casey is assigned to Position 5.\n3. Alex is not assigned to Position 2 or Position 3.\n4. Dana is assigned to a position before Alex's position in the role order.\n5. Emery is not assigned to Position 2.\n\nWhich assignment satisfies all constraints?",
+		"reason": "The marked correct answer (Option B) violates Constraint 3. Option B assigns Alex to Position 2, but Constraint 3 explicitly states 'Alex is not assigned to Position 2 or Position 3.' This is a factual/logical error in the question's answer key.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Alex→Position 1, Blake→Position 4, Casey→Position 5, Dana→Position 2, Emery→Position 3",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Alex→Position 2, Blake→Position 4, Casey→Position 5, Dana→Position 1, Emery→Position 3",
+				"is_correct": true
+			},
+			{
+				"label": "C",
+				"text": "Alex→Position 3, Blake→Position 4, Casey→Position 5, Dana→Position 2, Emery→Position 1",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Alex→Position 1, Blake→Position 4, Casey→Position 5, Dana→Position 3, Emery→Position 2",
+				"is_correct": false
+			}
+		],
+		"correct_option": "B",
+		"correct_option_explanation": "NOTE: The dataset's own reason flags that this marked answer actually violates Constraint 3 (Alex is placed at Position 2, which the rules exclude). This question appears to contain an internal answer-key error; the 'correct' option as marked in the source data is retained here, but it is not logically consistent with the stated constraints."
+	},
+	{
+		"//": "This is a valid question",
+		"id": "56c07232-a435-48f4-bb17-76e2bc77af58",
+		"template_id": "LOG_LD_L2_015",
+		"question_text": "Statements:\n1. All musicians are creative.\n2. Some creative people are introverts.\n3. No introvert is a public speaker.\n\nConclusions:\nI. Some musicians are introverts.\nII. Some creative people are not public speakers.\nIII. No musician is a public speaker.\n\nWhich conclusion does NOT follow from the statements?",
+		"reason": "The marked correct answer (C) is factually wrong. Conclusion II does follow validly from the statements, making the explanation incorrect. Since some creative people are introverts (statement 2) and no introvert is a public speaker (statement 3), it follows that some creative people are not public speakers. Therefore, Conclusion II DOES follow, contradicting the explanation that claims 'Only Conclusion II validly follows.' The actual conclusions that do NOT follow are I and III, making option C correct in its selection but wrong in its reasoning. However, the more fundamental issue is that option D (Conclusion III only) could also be defensible since Conclusion I arguably doesn't follow either, creating ambiguity about whether one or two conclusions fail to follow.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Conclusion I only",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Conclusion II only",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Conclusions I and III",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "Conclusion III only",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "Conclusion I does not follow because while all musicians are creative and some creative people are introverts, we cannot deduce that the specific creative people who are musicians overlap with those who are introverts. Conclusion III does not follow because we cannot establish that all musicians are introverts (only some creative people are). Only Conclusion II validly follows: since some creative people are introverts and no introvert is a public speaker, some creative people are definitely not public speakers."
+	},
+	{
+		"//": "This is a valid question",
+		"id": "6ee7d11c-b9ac-41fd-9223-c9475c63d11a",
+		"template_id": "LOG_LD_L2_015",
+		"question_text": "Read the statements below:\n\nStatement 1: All musicians in the orchestra are trained in classical music.\nStatement 2: Some trained classical musicians perform at weddings.\n\nConclusions:\nI. All musicians in the orchestra perform at weddings.\nII. Some people who perform at weddings are trained in classical music.\nIII. No musicians in the orchestra perform at weddings.\n\nWhich conclusion does NOT follow from the given statements?",
+		"reason": "The marked correct answer (A) is factually wrong. Conclusion II ('Some people who perform at weddings are trained in classical music') logically follows from Statement 2 ('Some trained classical musicians perform at weddings'). Therefore, conclusion II DOES follow from the statements. The question asks which conclusions do NOT follow. Option A claims 'Only I and III' do not follow, but this is incorrect because II does follow. The actual correct answer should be B ('Only I'), as conclusion I is the only one that definitively does NOT follow (it commits an overgeneralization). Conclusion III also does not necessarily follow, but it's not contradicted either - it's simply indeterminate. There is ambiguity in whether III follows or not, but more critically, the marked answer A is wrong because it excludes II from the 'follows' category when II clearly does follow.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Only I and III",
+				"is_correct": true
+			},
+			{
+				"label": "B",
+				"text": "Only I",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Only III",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Only II",
+				"is_correct": false
+			}
+		],
+		"correct_option": "A",
+		"correct_option_explanation": "Conclusion I commits an overgeneralization error by assuming all orchestra musicians perform at weddings when we only know some trained classical musicians do. Conclusion III contradicts what could be true- some orchestra musicians might perform at weddings. Both I and III do not follow from the premises, making this the correct answer."
+	},
+	{
+		"id": "8e0170c1-5935-4155-8b6e-bb5f3095a3e5",
+		"template_id": "LOG_LD_L2_015",
+		"question_text": "Statements:\n1. All musicians are creative.\n2. Some creative people are introverts.\n\nConclusions:\nI. All musicians are introverts.\nII. Some musicians are introverts.\nIII. Some introverts are musicians.\nIV. No musician is an introvert.\n\nWhich conclusion does NOT follow from the given statements?",
+		"reason": "The marked correct answer (A) is factually wrong. Conclusions II and III also do NOT follow from the given statements - they are possible but not necessary conclusions. From 'All musicians are creative' and 'Some creative people are introverts', we cannot conclude that 'Some musicians are introverts' (II) or 'Some introverts are musicians' (III) must be true The overlap between musicians and introverts is possible but not logically required. Therefore, conclusions I, II, III, and IV all fail to follow necessarily from the premises. Option D ('Conclusions I, II, and III') would be more defensible than the marked answer A, making this question have no clearly correct answer among the options provided.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Conclusions I and IV",
+				"is_correct": true
+			},
+			{
+				"label": "B",
+				"text": "Conclusions II and III only",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Conclusion I only",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Conclusions I, II, and III",
+				"is_correct": false
+			}
+		],
+		"correct_option": "A",
+		"correct_option_explanation": "Conclusion I commits an overgeneralization error by treating 'some creative people are introverts' as if it applies to all musicians. We only know musicians are creative, not that all creative people (or all musicians) are introverts. Conclusion IV directly contradicts the possibility that some musicians could be introverts, which cannot be ruled out from the premises. Both conclusions are invalid."
+	},
+	{
+		"id": "71d6eabf-17d0-4a82-b2af-7b6a825515d7",
+		"template_id": "LOG_LD_L3_016",
+		"question_text": "Given the following premises:\n\n1. All journalists are storytellers.\n2. Some storytellers are not creative.\n3. No one who is creative is a pessimist.\n\nWhich conclusion MUST follow from these premises?",
+		"reason": "The marked correct answer (D) contains a logical error. The explanation incorrectly reasons that 'at least the creative storytellers are not pessimists' and concludes 'some storytellers are not pessimists.' However, from the premises we can only establish: (1) All journalists are storytellers, (2) Some storytellers are not creative, (3) All creative people are not pessimists. We cannot determine whether the non-creative storytellers are pessimists or not, and we don't know if there are any creative storytellers at all. The conclusion 'some storytellers are not pessimists' requires knowing that at least one storyteller is either creative OR not a pessimist for other reasons, which cannot be derived from the premises alone. The question contains a logical error in what 'MUST follow' from the premises.",
+		"options": [
+			{
+				"label": "A",
+				"text": "All journalists are creative.",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Some journalists are pessimists.",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "No storytellers are pessimists.",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Some storytellers are not pessimists.",
+				"is_correct": true
+			}
+		],
+		"correct_option": "D",
+		"correct_option_explanation": "From premise 2, we know some storytellers are not creative. From premise 3, no one who is creative is a pessimist, which is equivalent to saying all creative people are not pessimists. Since there exist storytellers who are not creative (premise 2), and all creative people are not pessimists (premise 3), we know that at least the creative storytellers are not pessimists. Therefore, some storytellers (at minimum, those who are creative) are not pessimists. This conclusion must follow from the premises."
+	},
+	{
+		"//": "This is a valid question",
+		"id": "9fe44dae-f8b0-49a5-9ffb-b93c7343f747",
+		"template_id": "LOG_OR_L2_025",
+		"question_text": "Five students—Anya, Ben, Chen, Dana, and Eva—are standing in a line from left to right. The following constraints apply:\n- Anya is to the left of Ben\n- Chen is to the left of Anya\n- Dana is to the left of Chen\n- Eva is not in the first position\n\nWhich of the following must be true",
+		"reason": "The marked correct answer (C) is incorrect. The constraints establish Dana < Chen < Anya < Ben, but Eva's position is only constrained by not being first. Eva could be in positions 2, 3, 4, or 5. For example, the arrangement Dana-Eva-Chen-Anya-Ben satisfies all constraints but Dana is still first. However, the arrangement Eva-Dana-Chen-Anya-Ben also satisfies all constraints EXCEPT Eva cannot be first. Since Eva can be inserted anywhere from position 2-5 in the Dana-Chen-Anya-Ben chain, Dana is not forced into first position - Eva could be in position 2, pushing the entire chain right. Wait, let me reconsider: We have 5 positions and 5 people. The chain Dana-Chen-Anya-Ben uses 4 people in that fixed order. Eva must fit somewhere but not in position 1. If Dana is not in position 1, then someone else must be. The only person who could be in position 1 is Eva (since Dana-Chen-Anya-Ben must maintain their order). But Eva cannot be in position 1. Therefore, Dana MUST be in position 1. The logic is actually correct.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Eva must be in the fifth position",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Ben must be in the fourth position",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Dana must be in the first position",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "Chen must be in the third position",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "From the ordering constraints, we can chain: Dana is left of Chen, Chen is left of Anya, and Anya is left of Ben. This gives us the order Dana-Chen-Anya-Ben. Since Eva is not in the first position and Dana must come before all of Chen, Anya, and Ben, Dana must occupy the first position."
+	},
+	{
+		"id": "6603193f-59c4-4517-a41a-4378940fa6cf",
+		"template_id": "LOG_OR_L2_026",
+		"question_text": "Four students—Priya, Quinn, Ravi, and Sarah—are standing in a line from left to right for a photograph. The following conditions apply:\n\n- Priya is immediately before Quinn.\n- Ravi is to the left of Sarah.\n- Quinn is not at the rightmost position.\n\nWhich of the following arrangements, from left to right, satisfies all the conditions?",
+		"reason": "Option B (Ravi, Priya, Quinn, Sarah) also satisfies all three conditions: Priya is immediately before Quinn (positions 2 and 3), Ravi is to the left of Sarah (position 1 before position 4), and Quinn is not at the rightmost position (Quinn is at position 3). Two options are equally defensible as correct.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Priya, Quinn, Sarah, Ravi",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Ravi, Priya, Quinn, Sarah",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Priya, Quinn, Ravi, Sarah",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "Ravi, Sarah, Priya, Quinn",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "This arrangement satisfies all three conditions: Priya is immediately before Quinn (positions 1 and 2), Ravi is to the left of Sarah (position 3 before position 4), and Quinn is not at the rightmost position (Quinn is at position 2)."
+	},
+	{
+		"id": "dbd87668-02dd-42c8-99a2-193a9c79eda0",
+		"template_id": "LOG_OR_L3_027",
+		"question_text": "Five books - A, B, C, D, and E - are arranged on a shelf from left to right. The arrangement must satisfy all of the following constraints:\n\n1. Book C is immediately to the left of book D.\n2. Book A is somewhere to the left of book B.\n3. Book E is at the rightmost position.\n4. Book B is not adjacent to book C.\n\nWhich of the following arrangements satisfies all the constraints?",
+		"reason": "The marked correct answer B violates constraint 4 (B and C are adjacent in positions 2 and 3). Upon verification, option A appears to satisfy all constraints, making this a case where the wrong answer is marked as correct and creating a factual error in the question.",
+		"options": [
+			{
+				"label": "A",
+				"text": "A, C, D, B, E",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "A, B, C, D, E",
+				"is_correct": true
+			},
+			{
+				"label": "C",
+				"text": "C, D, A, B, E",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "A, C, D, E, B",
+				"is_correct": false
+			}
+		],
+		"correct_option": "B",
+		"correct_option_explanation": "NOTE: The dataset's own reason flags that this marked answer actually violates Constraint 4 (B at position 2 and C at position 3 are adjacent). This question appears to contain an internal answer-key error; the 'correct' option as marked in the source data is retained here, but the source explanation itself trails off mid-calculation without resolving the contradiction."
+	},
+	{
+		"id": "e5a3133b-0174-497d-8e68-b880998380c2",
+		"template_id": "LOG_OR_L3_027",
+		"question_text": "Five participants - Alice, Ben, Clara, Dan, and Emma - finished a race. The following constraints are known:\n\n1. Ben finished immediately before Clara.\n2. Alice finished before Dan.\n3. Emma finished at the last position.\n4. Dan is not adjacent to Clara.\n\nWhich of the following represents a valid left-to-right finishing order (first to last)?",
+		"reason": "Two options are equally valid. Option B (Alice, Dan, Ben, Clara, Emma) and Option C (Ben, Clara, Alice, Dan, Emma) both satisfy all four constraints: (1) Ben immediately before Clara, (2) Alice before Dan, (3) Emma last, and (4) Dan not adjacent to Clara.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Alice, Ben, Clara, Dan, Emma",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Alice, Dan, Ben, Clara, Emma",
+				"is_correct": true
+			},
+			{
+				"label": "C",
+				"text": "Ben, Clara, Alice, Dan, Emma",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Alice, Ben, Clara, Emma, Dan",
+				"is_correct": false
+			}
+		],
+		"correct_option": "B",
+		"correct_option_explanation": "This arrangement satisfies all four constraints: (1) Ben is immediately before Clara (positions 3 and 4), (2) Alice is before Dan (positions 1 and 2), (3) Emma is at the last position (position 5), and (4) Dan is not adjacent to Clara (Dan at position 2, Clara at position 4, with Ben between them)."
+	},
+	{
+		"id": "18fb77c6-9732-4c5a-bc6c-1d0633c64ee1",
+		"template_id": "LOG_RM_L2_055",
+		"question_text": "A 3×3 matrix contains shapes in each cell. The bottom-right cell is missing.\n\n**Row 1:**\n- Cell (1,1): {\"shapes\": [{\"type\": \"triangle\", \"count\": 1, \"fill\": \"filled\", \"orientation_degrees\": 0, \"position\": \"center\"}]}\n- Cell (1,2): {\"shapes\": [{\"type\": \"triangle\", \"count\": 2, \"fill\": \"filled\", \"orientation_degrees\": 0, \"position\": \"center\"}]}\n- Cell (1,3): {\"shapes\": [{\"type\": \"triangle\", \"count\": 3, \"fill\": \"filled\", \"orientation_degrees\": 0, \"position\": \"center\"}]}\n\n**Row 2:**\n- Cell (2,1): {\"shapes\": [{\"type\": \"circle\", \"count\": 1, \"fill\": \"outline\", \"orientation_degrees\": 0, \"position\": \"center\"}]}\n- Cell (2,2): {\"shapes\": [{\"type\": \"circle\", \"count\": 2, \"fill\": \"outline\", \"orientation_degrees\": 0, \"position\": \"center\"}]}\n- Cell (2,3): {\"shapes\": [{\"type\": \"circle\", \"count\": 3, \"fill\": \"outline\", \"orientation_degrees\": 0, \"position\": \"center\"}]}\n\n**Row 3:**\n- Cell (3,1): {\"shapes\": [{\"type\": \"square\", \"count\": 1, \"fill\": \"striped\", \"orientation_degrees\": 0, \"position\": \"center\"}]}\n- Cell (3,2): {\"shapes\": [{\"type\": \"square\", \"count\": 2, \"fill\": \"striped\", \"orientation_degrees\": 0, \"position\": \"center\"}]}\n- Cell (3,3): **MISSING**\n\nWhich option correctly completes cell (3,3)?",
+		"reason": "The explanation for the correct answer contains a factual error in describing the pattern rules. While the marked answer C is indeed correct, the justification incorrectly describes a column-based fill progression that does not exist in the data.",
+		"options": [
+			{
+				"label": "A",
+				"text": "{\"shapes\": [{\"type\": \"square\", \"count\": 3, \"fill\": \"outline\", \"orientation_degrees\": 0, \"position\": \"center\"}]}",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "{\"shapes\": [{\"type\": \"square\", \"count\": 2, \"fill\": \"striped\", \"orientation_degrees\": 0, \"position\": \"center\"}]}",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "{\"shapes\": [{\"type\": \"square\", \"count\": 3, \"fill\": \"striped\", \"orientation_degrees\": 0, \"position\": \"center\"}]}",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "{\"shapes\": [{\"type\": \"square\", \"count\": 3, \"fill\": \"filled\", \"orientation_degrees\": 0, \"position\": \"center\"}]}",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "Row rule: In each row, the count increases from 1 to 2 to 3 across columns. Row 3 must have count 3 in the third column. Column rule: In each column, the fill progresses from filled (column 1) to outline (column 2) to striped (column 3). Column 3 must have striped fill. Therefore, cell (3,3) must have 3 striped squares."
+	},
+	{
+		"//": "This is a valid question",
+		"id": "49ed4d2b-03a9-4f22-aff4-f5c1abc05899",
+		"template_id": "LOG_RM_L3_059",
+		"question_text": "A 3×3 matrix follows two independent rules: one governs how shapes change across rows, and another governs how fill patterns change down columns. Study the matrix below and select the cell that completes it.\n\nRow 1: Circle (filled) | Square (outline) | Triangle (filled)\nRow 2: Circle (outline) | Square (filled) | Triangle (outline)\nRow 3: Circle (filled) | Square (outline) | ?\n\nThe row rule: In each row, the fill pattern alternates: filled, outline, filled.\nThe column rule: In each column, the fill pattern cycles through filled, outline, filled, outline, filled, outline.\n\nWhich cell belongs in position Row 3, Column 3?",
+		"reason": "The question contains a logical error in the stated column rule that makes it impossible to solve as presented.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Triangle (filled)",
+				"is_correct": true
+			},
+			{
+				"label": "B",
+				"text": "Triangle (outline)",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Square (filled)",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Circle (outline)",
+				"is_correct": false
+			}
+		],
+		"correct_option": "A",
+		"correct_option_explanation": "This option satisfies both the row rule and the column rule. Row 3 requires the pattern filled, outline, filled—so position (3,3) must be filled. Column 3 contains triangles with the fill cycle filled, outline, filled—so position (3,3) must be filled. Triangle (filled) is the only option that satisfies all rules."
+	},
+	{
+		"id": "facd5878-2113-41d9-a1dd-7ebbaffc10e9",
+		"template_id": "LOG_RM_L3_059",
+		"question_text": "A 3x3 matrix follows two independent rules: one for rows and one for columns. Study the matrix below and identify which option completes it.\n\nRow 1: [1 filled circle | 2 filled circles | 3 filled circles]\nRow 2: [1 outline square | 2 outline squares | 3 outline squares]\nRow 3: [1 filled triangle | 2 filled triangles | ?]\n\nColumn 1: [1 filled circle | 1 outline square | 1 filled triangle]\nColumn 2: [2 filled circles | 2 outline squares | 2 filled triangles]\nColumn 3: [3 filled circles | 3 outline squares | ?]\n\nWhich option completes the matrix?",
+		"reason": "Option A and Option D are identical, creating ambiguity about which is the correct answer.",
+		"options": [
+			{
+				"label": "A",
+				"text": "3 filled triangles",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "1 filled triangle",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "2 outline triangles",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "3 filled triangles",
+				"is_correct": true
+			}
+		],
+		"correct_option": "D",
+		"correct_option_explanation": "The cell at row 3, column 3 must satisfy both the row rule and the column rule. The row rule states: Row 3 contains filled triangles with count increasing left-to-right (1, 2, ?). The column rule states: Column 3 contains shapes with count = 3 across all rows (3 circles, 3 squares, ?). Only option D (3 filled triangles) satisfies both rules: it completes the row count progression (1→2→3) and matches the column count pattern (all cells in column 3 have count 3). Options A, B, and C each satisfy one rule but fail the other: A satisfies the row rule but violates the column rule (should be 3, not a different number); B satisfies the column rule (1 fits the position in progression) but violates the row rule (should be 3); C violates both the shape rule (should be filled, not outline) and fails to complete the proper count. Therefore D is the unique complete fit."
+	},
+	{
+		"id": "cec0e976-a9a0-4e83-9711-1b6b158736d6",
+		"template_id": "LOG_SP_L2_046",
+		"question_text": "Five students—Amit, Priya, Ravi, Sonia, and Tina—are sitting in a row facing North. Priya is sitting immediately to the right of Amit. Ravi is sitting second to the left of Sonia. Tina is sitting at the right end of the row. Sonia is sitting immediately to the right of Priya. What is Ravi's position relative to Amit?",
+		"reason": "The question contains contradictory constraints that make it impossible to solve. The given conditions require Amit-Priya-Sonia to be consecutive, with Tina at position 5, but this places Ravi in the same position as Amit regardless of where the Amit-Priya-Sonia sequence is placed.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Ravi is sitting immediately to the left of Amit",
+				"is_correct": true
+			},
+			{
+				"label": "B",
+				"text": "Ravi is sitting immediately to the right of Amit",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Ravi is sitting second to the right of Amit",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Ravi is sitting second to the left of Amit",
+				"is_correct": false
+			}
+		],
+		"correct_option": "A",
+		"correct_option_explanation": "From the constraints: Tina is at the right end (position 5). Working backwards: Sonia is immediately to the right of Priya, and Priya is immediately to the right of Amit, giving us Amit-Priya-Sonia as consecutive seats. Ravi is second to the left of Sonia. Working through the positions: Ravi at position 1, Amit at position 2, Priya at position 3, Sonia at position 4, Tina at position 5. Ravi is immediately to the left of Amit."
+	},
+	{
+		"//": "This is a valid question",
+		"id": "108c8a53-22ce-4524-baf6-d041c04d48bb",
+		"template_id": "LOG_SR_L1_002",
+		"question_text": "A librarian is arranging books on a display shelf following a repeating color pattern. The sequence of book colors is:\n\nRed, Blue, Green, Red, Blue, Green, Red, Blue, Green, Red, Blue, ?\n\nWhat color should the next book be?",
+		"reason": "The marked correct answer contains a mathematical error. The sequence shows 11 books (Red, Blue, Green, Red, Blue, Green, Red, Blue, Green, Red, Blue), so position 12 would be the next book. In a 3-book repeating pattern, position 12 ÷ 3 = 4 with remainder 0, meaning position 12 is the last position of the 4th cycle, which is Green. However, the explanation states 'Position 12 completes the 4th cycle' which is correct, but the actual count shows only 11 books listed before the question mark, making the next book position 12. If we count: positions 1-3 (cycle 1), 4-6 (cycle 2), 7-9 (cycle 3), 10-12 (cycle 4). Position 10=Red, 11=Blue, 12=Green. So while the answer Green is correct, there's a counting ambiguity. Actually, recounting: the sequence lists 11 colors before the '?', so the '?' represents the 12th position, which would be Green (12 mod 3 = 0, so the 3rd color). The answer is mathematically correct.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Red",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Blue",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Green",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "Yellow",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "The pattern repeats every three books: Red, Blue, Green. Position 12 completes the 4th cycle, so the answer is Green (the third color in the cycle)."
+	},
+	{
+		"//": "This is a valid question",
+		"id": "7d27b92c-4267-453a-81ae-6a87c648df4b",
+		"template_id": "LOG_SR_L1_002",
+		"question_text": "A community garden uses colored flags to mark different planting schedules. The flags follow this pattern:\n\nRed, Blue, Yellow, Red, Blue, Yellow, Red, Blue, Yellow, Red, Blue, ___\n\nWhat color flag comes next?",
+		"reason": "The explanation contains a mathematical error. The explanation states 'Position 12 is divisible by 3, which corresponds to the third position in the cycle,' but position 12 being divisible by 3 means it completes the 4th cycle, placing it at the end of a cycle (Yellow is correct), not that it 'corresponds to the third position.' However, more critically, counting the sequence shows only 11 positions given (Red, Blue, Yellow, Red, Blue, Yellow, Red, Blue, Yellow, Red, Blue, ___), making the blank position 12. At position 12, following the Red-Blue-Yellow pattern: positions 1,4,7,10 are Red; 2,5,8,11 are Blue; 3,6,9,12 are Yellow. So Yellow is correct, but the question is answerable. Actually, re-examining: the sequence given is complete and countable, Yellow is demonstrably correct, and while the explanation's wording about 'divisible by 3 corresponds to third position' is awkward, it reaches the right answer. The question is solvable and has one correct answer.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Red",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Blue",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Yellow",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "Green",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "The pattern repeats in a cycle of three colors: Red, Blue, Yellow. This cycle repeats consistently three times in the visible sequence. Position 12 is divisible by 3, which corresponds to the third position in the cycle, which is Yellow."
+	},
+	{
+		"//": "This is a valid question",
+		"id": "a5fb04c6-6f9f-4876-89e7-9f85a0e9f633",
+		"template_id": "LOG_SR_L1_002",
+		"question_text": "A bakery displays pastries in a repeating color pattern: Red, Blue, Yellow, Red, Blue, Yellow, Red, Blue, Yellow. What color will the 10th pastry be?",
+		"reason": "The marked correct answer contains a mathematical error. Position 10 divided by 3 gives remainder 1, which would indeed be Red (the 1st position). However, the explanation is incorrect in its mathematical reasoning. When we divide 10 by 3, we get 3 remainder 1. The positions are: 1=Red, 2=Blue, 3=Yellow, 4=Red, 5=Blue, 6=Yellow, 7=Red, 8=Blue, 9=Yellow, 10=Red. While the final answer 'Red' is correct, there is a fundamental error in the modular arithmetic explanation that could confuse students about how to solve pattern problems.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Red",
+				"is_correct": true
+			},
+			{
+				"label": "B",
+				"text": "Blue",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Yellow",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Green",
+				"is_correct": false
+			}
+		],
+		"correct_option": "A",
+		"correct_option_explanation": "The pattern repeats in a cycle of 3: Red, Blue, Yellow. Position 10 divided by 3 gives remainder 1, which corresponds to the first position in the cycle, which is Red."
+	},
+	{
+		"//": "This is a valid question",
+		"id": "c85c9fec-5052-46d1-81d0-0a5495743f6f",
+		"template_id": "LOG_SR_L1_002",
+		"question_text": "A teacher arranges colored cards in the following pattern:\n\nRed, Blue, Green, Red, Blue, Green, Red, Blue, Green, Red, Blue, ___\n\nWhat color card comes next?",
+		"reason": "The explanation contains a mathematical error. It states that position 12 ÷ 3 = 4 with remainder 0, but the pattern shown has 11 cards before the blank (Red, Blue, Green, Red, Blue, Green, Red, Blue, Green, Red, Blue, ___), making the missing position 12. However, 12 ÷ 3 = 4 with remainder 0 would mean Green completes the cycle, which is correct. But the explanation's logic is confusing because remainder 0 means the position is divisible by 3, which is the last position of the cycle (Green). The actual issue is that counting the cards shows: positions 1-3 (Red, Blue, Green), 4-6 (Red, Blue, Green), 7-9 (Red, Blue, Green), 10-11 (Red, Blue), so position 12 should be Green. While the answer is correct, the explanation's reasoning about 'remainder 0' is mathematically sound but could be clearer. Actually, re-examining: the pattern and answer are both correct. The question is solvable and has one correct answer.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Red",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "Blue",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Green",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "Yellow",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "The pattern repeats in a cycle of three colors: Red, Blue, Green. This cycle is visible three complete times before the blank. The sequence shows position 1 is Red, position 2 is Blue, and position 3 is Green. The missing card is at position 12, which is the third position in the fourth cycle (12 ÷ 3 = 4 with remainder 0, meaning it completes the cycle), so the answer is Green."
+	},
+	{
+		"id": "c957ccc6-7aab-4c4c-ab56-49c6554ba2c0",
+		"template_id": "LOG_SR_L2_004",
+		"question_text": "What is the next term in the sequence?\n\n3, 7, 13, 25, 49, 97, ?",
+		"reason": "Options B and C are duplicates (both showing '193'), which creates ambiguity for test-takers even though only C is marked correct. Additionally, the explanation contradicts itself multiple times while working through the pattern.",
+		"options": [
+			{
+				"label": "A",
+				"text": "145",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "193",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "193",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "194",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "The sequence follows the rule: each term is double the previous term, minus 1 (except the first step, which is double plus 1). Concretely: 3×2+1=7, 7×2−1=13, 13×2−1=25, 25×2−1=49, 49×2−1=97, 97×2−1=193."
+	},
+	{
+		"id": "bb715b93-8ed3-464c-a4f2-ac48fbfc0538",
+		"template_id": "LOG_SY_L1_018",
+		"question_text": "All musicians are creative people. All creative people are imaginative. Which of the following conclusions can be validly drawn?",
+		"reason": "Option D ('Some imaginative people are musicians') is also a valid conclusion. While we cannot conclude ALL imaginative people are musicians, we can validly conclude that SOME are (because we know all musicians are imaginative, and musicians exist as implied by the premises). This makes two options equally defensible as correct.",
+		"options": [
+			{
+				"label": "A",
+				"text": "All musicians are imaginative.",
+				"is_correct": true
+			},
+			{
+				"label": "B",
+				"text": "All imaginative people are musicians.",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "All creative people are musicians.",
+				"is_correct": false
+			},
+			{
+				"label": "D",
+				"text": "Some imaginative people are musicians.",
+				"is_correct": false
+			}
+		],
+		"correct_option": "A",
+		"correct_option_explanation": "This follows by the transitive property of universal affirmative statements. Since all musicians are creative people, and all creative people are imaginative, it logically follows that all musicians are imaginative."
+	},
+	{
+		"id": "6f06d455-4c72-4eac-a406-f3396ccd3f25",
+		"template_id": "LOG_SY_L2_020",
+		"question_text": "Consider the following statements:\n\n1. All librarians are book enthusiasts.\n2. No book enthusiasts are technology skeptics.\n3. Some researchers are librarians.\n\nWhich conclusion can be validly drawn from these statements?",
+		"reason": "Option B ('No librarians are technology skeptics') is equally defensible as correct. From statement 1, all librarians are book enthusiasts. From statement 2, no book enthusiasts are technology skeptics. By syllogistic reasoning, no librarians are technology skeptics. This is a valid universal conclusion that follows necessarily from the premises, just as option C does.",
+		"options": [
+			{
+				"label": "A",
+				"text": "All researchers are book enthusiasts.",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "No librarians are technology skeptics.",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Some researchers are not technology skeptics.",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "All book enthusiasts are researchers.",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "From statement 3, some researchers are librarians. From statement 1, all librarians are book enthusiasts, so these researchers must be book enthusiasts. From statement 2, no book enthusiasts are technology skeptics, which means these researchers (who are book enthusiasts) cannot be technology skeptics. Therefore, some researchers are not technology skeptics."
+	},
+	{
+		"id": "7372e060-3eda-4533-bed1-02a76d4a950c",
+		"template_id": "LOG_SY_L3_022",
+		"question_text": "Consider the following statements:\n\n1. All volunteers are trained professionals.\n2. Some trained professionals are not community organizers.\n3. No community organizers are inexperienced.\n\nWhich of the following must be true",
+		"reason": "The marked correct answer (C) is factually incorrect. The explanation itself demonstrates confusion and uncertainty about whether the answer follows from the premises. From the given statements: (1) All volunteers are trained professionals, (2) Some trained professionals are not community organizers, (3) No community organizers are inexperienced. Statement 1 only tells us volunteers are trained professionals - it does NOT tell us they are experienced. Statement 3 only tells us about community organizers being experienced, not about all trained professionals or volunteers. There is no logical path from the premises to conclude that no volunteers are inexperienced. The question contains a logical error in marking answer C as correct.",
+		"options": [
+			{
+				"label": "A",
+				"text": "Some volunteers are not community organizers.",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "All volunteers are experienced.",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "No volunteers are inexperienced.",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "Some trained professionals are community organizers.",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "NOTE: The dataset's own reason flags this marked answer as not following validly from the premises given (statement 1 establishes volunteers are trained professionals but says nothing about experience, and statement 3 only restricts community organizers). This question appears to contain an internal answer-key error; the 'correct' option as marked in the source data is retained here, but the source explanation itself trails off without resolving the contradiction."
+	},
+	{
+		"//": "This is a valid question",
+		"id": "b16fcd02-c3e7-4c71-9982-7c61c5143abb",
+		"template_id": "LOG_SY_L3_022",
+		"question_text": "Consider the following premises:\n\n1. All musicians in the orchestra are professional performers.\n2. Some professional performers are not trained in classical music.\n3. No one trained in classical music teaches pop music.\n\nWhich of the following statements must be truebased on these premises?",
+		"reason": "",
+		"options": [
+			{
+				"label": "A",
+				"text": "Some musicians in the orchestra are not trained in classical music.",
+				"is_correct": false
+			},
+			{
+				"label": "B",
+				"text": "All musicians in the orchestra teach pop music.",
+				"is_correct": false
+			},
+			{
+				"label": "C",
+				"text": "Some professional performers do not teach pop music.",
+				"is_correct": true
+			},
+			{
+				"label": "D",
+				"text": "No musicians in the orchestra are trained in classical music.",
+				"is_correct": false
+			}
+		],
+		"correct_option": "C",
+		"correct_option_explanation": "From premise 2, some professional performers are not trained in classical music. However, we also know that some professional performers ARE trained in classical music (this is possible and could be true. From premise 3, no one trained in classical music teaches pop music. Therefore, at least those professional performers who are trained in classical music do not teach pop music. This means some professional performers do not teach pop music - this must be true"
+	}
+]

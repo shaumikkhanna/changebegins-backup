@@ -81,11 +81,15 @@ Every wrong option must represent a meaningful mistake a test-taker might make. 
 For every generated question:
 
 - Include exactly one correct option.
+- All four option texts must be distinct after trimming whitespace, normalizing case, and normalizing equivalent notation.
+- Do not repeat the same answer value under two labels, even if one repeated label is marked wrong.
+- If two options normalize to the same answer, regenerate the options before returning the item.
 - Include three wrong options based on three different error types.
 - Keep all options similar in length, format, and plausibility.
 - Do not make the correct option the only precise or formally worded option.
 - Do not use options such as `all of the above`, `none of the above`, `cannot say`, or `data insufficient` unless the selected answer mode explicitly permits them.
 - Do not create distractors that are true under a different interpretation of an ambiguous question. Fix the question instead.
+- Do not create duplicate or equivalent distractors. For numeric items, `193` and `193` are duplicates; for visual/spatial items, two differently worded options that describe the same normalized object or relation are duplicates.
 - Do not create two distractors from the same mistake pattern unless the template explicitly asks for close numerical distractors.
 - The `option_rationales` field must explain why each option is correct or what mistake produces it.
 
@@ -304,6 +308,8 @@ sequence_length: 5-7 visible terms
 
 Generate a sequence whose transition pattern is simple but not L1. The rule may alternate, depend on position, or repeat a fixed two-operation transformation.
 
+Before returning, compute the next term once from the declared rule and make sure that exact value appears in exactly one option label.
+
 ### Allowed Variations
 
 - increasing differences such as `+2, +4, +6, +8`
@@ -316,12 +322,17 @@ Generate a sequence whose transition pattern is simple but not L1. The rule may 
 - hidden exceptions
 - arithmetic-heavy values
 - multiple reasonable continuations
+- duplicate numeric answer options
+- explanation text that contradicts itself, changes rules mid-solution, or contains self-correction language
 
 ### Validator Must Check
 
 - declared operator explains every transition
 - next term is unique
+- the correct next term appears in exactly one option
+- all four numeric options are distinct
 - sequence is not explainable by an L1 rule
+- explanation uses one consistent rule and contains no self-correction text
 
 ### Example Skeleton
 
@@ -650,27 +661,40 @@ relevant_attributes: exactly 2
 
 Generate a classification item where multiple attributes are visible, but only the intended attribute combination determines the answer.
 
+For `ODD_ONE_OUT`, the item must not collapse into a single-attribute oddity. Each option must be textually distinct, and the wrong options must vary on at least one non-decisive visible detail while still satisfying the intended two-attribute rule.
+
 ### Allowed Attribute Types
 
 - divisibility by an odd number plus parity
 - shape type plus fill/outline
-- word length plus starting/ending letter
 - category plus function
 
 ### Forbidden
 
 - arbitrary hidden facts
 - more than two relevant attributes
+- repeated identical option text, such as three options all saying `Outlined triangle`
+- stems that reveal the answer pattern by saying that three options share the exact same two attributes
+- shape/fill items where the odd option differs only by fill or only by shape
+- L1-style `three X, one Y` oddities
 - an answer that depends on taste or convention
 - options where two items are equally odd
+- first-letter or last-letter patterns
+- vowel/consonant ending patterns
+- word-length plus edge-letter patterns
+- mixing semantic categories in a word-form odd-one-out item, such as one instrument among foods
 - the answer being the only option having a different parity to the others
 - explanation text that corrects itself, mentions a different option, or refers to an option not actually present
 
 ### Validator Must Check
 
 - all items can be evaluated on both attributes
+- all option texts are distinct
 - exactly one item fails the intended attribute combination
+- the item requires checking both intended attributes, not just spotting one changed word such as `filled` versus `outlined`
 - competing attributes do not produce another valid answer
+- no first-letter, last-letter, or vowel/consonant-ending rule is used as the intended oddity
+- if words are used, semantic category differences do not create another defensible odd item
 - for numeric parity/divisibility items, the divisor is odd so parity is an independent second attribute
 - explanation, correctAnswer, correct_answer, options, and option_rationales all refer to the same actual option
 
@@ -946,17 +970,29 @@ Conclusion that follows: Some books are documents.
 ```yaml
 domain: Logical Deductions
 difficulty_level: L2
-answer_mode: INVALID_CONCLUSION or DOES_NOT_FOLLOW
+answer_mode: VALID_CONCLUSION_SET
 required_operators:
     - INVALID_ELIMINATION
     - QUANTIFIER_HANDLING
 premise_count: 2-3
-conclusion_count: 3-4
+conclusion_count: exactly 3
+options: exactly 4
 ```
 
 ### Contract
 
-Generate a question where the student must identify which conclusion does not follow or which set of conclusions is valid.
+Generate a question where the student must identify exactly which conclusion follows from the premises. Do not ask which conclusion does not follow.
+
+Use this construction recipe:
+
+1. Use two categorical premises with a clear valid chain, such as `Some A are B` and `All B are C`.
+2. Provide exactly three numbered conclusions:
+   - I must be the valid chained conclusion, e.g. `Some A are C`.
+   - II must be a tempting overgeneralization, e.g. `All A are C`.
+   - III must be a tempting converse/overlap claim, e.g. `Some C are A` only if it is not already equivalent to I; otherwise use another unsupported claim.
+3. Ask: "Which conclusion follows from the given statements?"
+4. Use option sets such as `Only I`, `Only II`, `Only III`, and `I and III`.
+5. The correct answer must be the exact valid conclusion set, not a partial set of invalid conclusions.
 
 ### Allowed Forms
 
@@ -966,22 +1002,32 @@ Generate a question where the student must identify which conclusion does not fo
 
 ### Forbidden
 
-- more than one intended invalid answer when asking for a single invalid conclusion
+- asking `Which conclusion does NOT follow?`
+- asking for a set of invalid conclusions
+- option sets that list only some invalid conclusions when more invalid conclusions exist
+- more than one valid conclusion set
 - conclusion wording that changes the meaning subtly by accident
 - unsupported conclusions that are obviously unrelated
+- treating possible overlap as a must-follow conclusion
 
 ### Validator Must Check
 
 - each conclusion is independently evaluated
 - answer key matches the validity of all conclusions
 - unsupported does not mean contradicted unless explicitly stated
+- exactly one option gives the complete set of conclusions that follow
+- no option is marked correct merely because it lists a subset of conclusions that do not follow
 
 ### Example Skeleton
 
 ```text
-Premises: All roses are flowers. Some flowers fade quickly.
-Invalid conclusion: Some roses fade quickly.
-Reason: possible, but not guaranteed.
+Premises: Some books are manuals. All manuals are documents.
+Conclusions:
+I. Some books are documents.
+II. All books are documents.
+III. Some documents are not books.
+Question: Which conclusion follows?
+Answer: Only I follows.
 ```
 
 ---
@@ -1142,6 +1188,8 @@ conclusion_count: 1
 
 Generate a basic universal syllogism where the conclusion follows by transitive class inclusion.
 
+When asking which conclusion can be validly drawn, every wrong option must be invalid under the stated premises. Do not use a weaker conclusion, restatement, existential version, or logically entailed variant of the correct universal conclusion as a distractor.
+
 ### Allowed Forms
 
 - All A are B. All B are C. Therefore all A are C.
@@ -1150,14 +1198,19 @@ Generate a basic universal syllogism where the conclusion follows by transitive 
 ### Forbidden
 
 - `some`, `no`, or `only`
+- answer options using `some`, `at least one`, or other existential wording
 - negative conclusions
 - multiple conclusion evaluation
 - real-world assumptions
+- distractors that are weaker forms of the correct conclusion, such as `Some C are A` when the intended answer is `All A are C` and the assessment context treats named classes as nonempty
+- distractors that are equivalent to, restate, or are directly entailed by the correct conclusion
 
 ### Validator Must Check
 
 - conclusion follows by universal chaining
 - answer is direct and unambiguous
+- all wrong options are actually invalid, not merely weaker or less complete valid conclusions
+- no option contains `some`, `at least one`, or existential wording for this L1 universal-chain template
 
 ### Example Skeleton
 
@@ -1230,6 +1283,8 @@ valid_options: exactly 1
 
 Generate a syllogism requiring three premises to evaluate the valid conclusion.
 
+When creating answer options, first list every conclusion that follows from any one-step or two-step chain among the premises. The correct option must be the only listed option that follows. Do not use an intermediate valid conclusion, a premise-subset conclusion, or a weaker entailed conclusion as a distractor.
+
 ### Allowed Forms
 
 - all/all/no chains
@@ -1240,6 +1295,9 @@ Generate a syllogism requiring three premises to evaluate the valid conclusion.
 
 - four or more premises
 - multiple valid conclusions
+- distractors that are valid intermediate conclusions from only two premises
+- distractors that are valid but less complete than the intended three-premise conclusion
+- distractors that are entailed by the intended conclusion or by any premise subset
 - hidden conversion of `some A are B` into `some B are A` unless the level explicitly expects it and the answer remains unambiguous
 - real-world category assumptions
 
@@ -1247,6 +1305,8 @@ Generate a syllogism requiring three premises to evaluate the valid conclusion.
 
 - all three premises are relevant or at least one distractor tests ignoring a premise
 - exactly one conclusion follows
+- every wrong option is invalid after checking all premise subsets and the full three-premise chain
+- no wrong option is a valid intermediate conclusion, such as `No B are D` in a chain where the intended full conclusion is `Some A are not D`
 - quantifier and negation handling is correct
 
 ### Example Skeleton
@@ -1334,6 +1394,8 @@ Generate a syllogism where the main difficulty is distinguishing what must be tr
 
 For this template, `could be true` means true in at least one valid model. A claim that is true in every valid model still qualifies as something that could be true.
 
+If the question asks which statement `must be true`, first construct the correct answer from a valid full-premise chain and write a short proof before creating distractors. For every wrong option, construct or imagine a valid countermodel where the premises hold but that option is false, or verify that it has the wrong modal status. Do not mark a statement as must-true because category names are nearby; there must be an explicit logical path from the premises.
+
 ### Allowed Claim Types
 
 - must be true
@@ -1345,15 +1407,24 @@ For this template, `could be true` means true in at least one valid model. A cla
 
 - treating possible overlap as guaranteed overlap
 - treating absence of evidence as impossibility
+- treating membership in one class as membership in another class without an explicit premise chain
+- concluding that a group is experienced/not inexperienced merely because another related group is experienced/not inexperienced
 - inconsistent premises
+- no option that is actually must-true when the question asks for a must-true conclusion
+- a marked must-true answer that requires an unstated link between classes
+- explanations that express uncertainty, self-correction, or contradictory modal status
 - more than one correct modal classification
 
 ### Validator Must Check
 
 - premises are jointly satisfiable
 - correct option has the intended modal status
+- for `must be true`, the marked answer is true in every valid model and has an explicit premise chain proving it
 - all wrong options fail under at least one valid model
+- for every wrong `must be true` candidate, there is a valid countermodel where the premises hold and that option is false
 - explanation distinguishes necessity from possibility
+- explanation does not infer an unstated link between adjacent categories
+- explanation is final and does not contain uncertainty or self-correction text
 - do not reject a `could be true` answer merely because it is also entailed by the premises; must-true statements are still possible
 
 ### Example Skeleton
@@ -1577,17 +1648,18 @@ Generate an ordering item where the student must choose the only valid left-to-r
 
 Use this construction process:
 
-1. First choose the correct full arrangement.
+1. First choose the correct full arrangement using this structure: `A, B, C, D`.
 2. Write three constraints that the correct arrangement satisfies:
-   - one immediate before/after or not-adjacent rule
-   - one simple before/after rule
-   - one end-position or non-end-position rule
+   - `A is immediately before B`
+   - `A is at the leftmost position` or `B is in the second position`
+   - `C is to the left of D`
 3. Create three wrong options by changing the correct arrangement so that each wrong option violates at least one named rule.
-4. Audit all four options against all three rules before returning.
+4. Do not use a weak non-end-position constraint such as `B is not rightmost` when the immediate pair could still appear in more than one location.
+5. Audit all four options against all three rules before returning.
 
 ### Allowed Forms
 
-- one immediate before/after rule plus one before/after rule plus one end-position rule
+- one immediate before/after rule plus one before/after rule plus one fixed/end-position rule that pins the immediate pair
 - one not-adjacent rule plus one before/after rule plus one end-position rule
 
 ### Forbidden
@@ -1601,6 +1673,8 @@ Use this construction process:
 - multiple valid answers
 - no valid answer
 - hidden assumptions about direction
+- weak positional constraints that allow the immediate pair/block to appear in more than one valid location
+- constraints like `B is not rightmost` when `A immediately before B` and `C before D` still allow two valid arrangements
 - explanations that acknowledge another option is valid
 - incorrect option rationales that cite the wrong pair for an adjacency or non-adjacency rule
 
@@ -1613,14 +1687,15 @@ Use this construction process:
 - every wrong option violates at least one named constraint
 - every option is checked against every stated constraint
 - exactly one option is valid
+- the fixed/end-position rule pins the immediate pair strongly enough that the valid arrangement is unique
 - explanation and option rationales name the actual violated constraint for each wrong option
 
 ### Example Skeleton
 
 ```text
-Four files are arranged left to right. Rules: B is immediately before D. A is left of C. D is at the right end.
+Four files are arranged left to right. Rules: A is immediately before B. A is at the left end. C is left of D.
 Question: Which arrangement from left to right is valid?
-Valid answer: B, D, A, C
+Valid answer: A, B, C, D
 Wrong options must each violate at least one named rule.
 ```
 
@@ -1647,14 +1722,16 @@ Generate a feasibility question where the student must choose the only valid ful
 
 Use this construction process:
 
-1. First choose the correct full arrangement.
+1. First choose the correct full arrangement using this structure: `A, B, C, D, E`.
 2. Write four constraints that the correct arrangement satisfies:
-   - one immediate before/after or not-adjacent rule
-   - one simple before/after rule
-   - one end-position or non-end-position rule
-   - one additional fixed-position, before/after, or adjacency rule
+   - `A is immediately before B`
+   - `A is at the first position` or `B is at the second position`
+   - `C is before D`
+   - `E is at the last position`
 3. Create three wrong options by changing the correct arrangement so that each wrong option violates at least one named rule.
-4. Audit all four options against all four rules before returning.
+4. Do not use a weak non-adjacency or non-end-position rule when the immediate pair/block can still appear in more than one valid location.
+5. Audit all four options against all four rules before returning.
+6. Set `correctAnswer`, `metadata.correct_answer`, explanation, and option rationales only after the audit identifies the single valid option. Never retain a marked answer that violates any stated constraint.
 
 ### Allowed Forms
 
@@ -1671,9 +1748,13 @@ Use this construction process:
 - more or fewer than four constraints
 - options that are not complete left-to-right arrangements
 - constraints that are redundant and do not affect feasibility
+- weak constraints that allow an immediate pair/block to appear in multiple valid locations
+- constraints like `D is not adjacent to B` when `A immediately before B`, `C before D`, and `E last` still allow multiple valid full arrangements
 - more than one valid option
 - no valid option
+- marked correct option violates any stated constraint
 - explanations that acknowledge another option is valid
+- explanations that mention source data, dataset errors, validator notes, or retained incorrect keys
 - incorrect option rationales that cite the wrong constraint or misread an arrangement
 
 ### Validator Must Check
@@ -1685,12 +1766,15 @@ Use this construction process:
 - every wrong option violates at least one named constraint
 - every option is checked against every stated constraint
 - exactly one option is valid
+- the fixed-position rule pins the immediate pair strongly enough that the valid arrangement is unique
+- correctAnswer, metadata.correct_answer, explanation, and option rationales all identify the same single valid option
+- explanation contains only the final logical solution, not meta-commentary about source data or validation
 - explanation and option rationales name the actual violated constraint for each wrong option
 
 ### Example Skeleton
 
 ```text
-Five people stand in a row. Rules: K is immediately before M. L is left of O. N is at the right end. O is not adjacent to M.
+Five people stand in a row. Rules: K is immediately before M. K is first. L is left of O. N is at the right end.
 Question: Which arrangement from left to right is valid?
 Valid answer: K, M, L, O, N
 Wrong options must each violate at least one named rule.
@@ -1958,20 +2042,26 @@ options: exactly 4
 
 ### Contract
 
-Generate a grouping item where the student must combine group size/capacity with one together/apart rule.
+Generate a grouping item where the student must combine group size/capacity with one inclusion, exclusion, or fixed-group rule.
 
 For `VALID_GROUPING` questions, use this construction process:
 
 1. First choose the correct complete grouping.
-2. Write one capacity/size rule and one together/apart rule that the correct grouping satisfies.
-3. Create three wrong complete groupings. Each wrong option must assign every listed item exactly once, but must violate at least one named rule.
-4. Audit all four options against both the capacity rule and the together/apart rule before returning. If more than one option satisfies both rules, regenerate one of the options.
+2. Write exact group sizes and one anchored rule that the correct grouping satisfies:
+   - preferred: `A and B must both be in Group 1`
+   - or: `A and B must both be in Group 2`
+   - or: `C and D cannot be in the same group`
+   - or: `E must be assigned to Group 1`
+3. Do not use a bare same-group rule such as `A and B must be in the same group` for `VALID_GROUPING`, because the pair may be valid in either group.
+4. Create three wrong complete groupings. Each wrong option must assign every listed item exactly once, but must violate at least one named rule.
+5. Audit all four options against both the capacity rule and the anchored rule before returning. If more than one option satisfies both rules, regenerate one of the options.
 
 Important audit rule: if two entities must be together, they may be together in any labeled group whose size/capacity is satisfied. Do not mark an option wrong merely because the together-pair appears in a different group from the intended correct option.
 
 ### Allowed Forms
 
-- A and B must be in the same group.
+- A and B must both be in Group 1.
+- A and B must both be in Group 2.
 - C and D cannot be in the same group.
 - E must be assigned to Group 1.
 
@@ -1979,6 +2069,7 @@ Important audit rule: if two entities must be together, they may be together in 
 
 - multiple inclusion/exclusion interactions
 - unspecified whether groups are labeled
+- bare same-group rules for `VALID_GROUPING`, such as `A and B must be in the same group`
 - more than one correct grouping when asking for the valid grouping
 - any wrong option that also satisfies all capacity and together/apart rules
 - treating a together-pair in the smaller/larger group as invalid when that group has the required size
@@ -1993,6 +2084,7 @@ Important audit rule: if two entities must be together, they may be together in 
 - wrong options represent ignored capacity, ignored inclusion, or ignored exclusion
 - every option is checked against every stated rule
 - exactly one option satisfies both capacity and together/apart rules
+- for `VALID_GROUPING`, any same-group inclusion rule is anchored to a specific named group or replaced with an exclusion/fixed-group rule
 - if a together-pair appears in a non-correct option, verify whether that option is still valid before rejecting it
 
 ### Example Skeleton
@@ -2109,18 +2201,19 @@ options: exactly 4
 
 Generate an assignment puzzle where exactly one complete assignment satisfies all constraints. Use exactly five entities and exactly five ordered roles. The role order must be explicitly stated in the stem.
 
-Use this construction recipe exactly, but randomize the surface names, role labels, anchor position, option order, and constraint order:
+Use this construction recipe exactly, but randomize the surface names, role labels, anchor position, option order, and constraint order. Build the correct answer first, then write the question and distractors around that answer.
 
 1. Choose five ordered roles `R1, R2, R3, R4, R5`.
 2. Choose five surface entities and randomly map them to internal slots `P`, `Q`, `R`, `S`, and `T`. Do not expose these slot letters unless they are also the chosen surface names.
 3. Choose an anchor position `k` from 1, 2, 3, or 4.
-4. Build the unique correct assignment with this structure:
+4. Build the unique correct assignment first with this structure:
    - `P -> Rk`
    - `Q -> R(k+1)`
    - Let the three remaining roles in increasing order be `U1`, `U2`, and `U3`.
    - `R -> U2`
    - `S -> U1`
    - `T -> U3`
+   This completed assignment is the answer key. Do not write constraints until this answer is fixed.
 5. Before writing the stem, instantiate this anchor table and use only the row for the chosen `k`:
 
 | Chosen `k` | `P` fixed role | `Q` immediate-after role | `R` correct role | `R` exclusion must be | `S` correct role | `T` correct role | `T` exclusion must be |
@@ -2130,14 +2223,15 @@ Use this construction recipe exactly, but randomize the surface names, role labe
 | 3          | `R3`           | `R4`                     | `R2`             | not `R1` or `R5`      | `R1`             | `R5`             | not `R2`              |
 | 4          | `R4`           | `R5`                     | `R2`             | not `R1` or `R3`      | `R1`             | `R3`             | not `R2`              |
 
-6. Write these five constraints using the surface names:
+6. Write these five constraints using the surface names, deriving every role reference from the already-built correct assignment:
    - `P` is assigned to `Rk`.
    - `Q` is assigned to the role immediately after `P`'s role in the stated role order.
    - `R` is not assigned to the two excluded roles shown in the table row. This exclusion must leave `R`'s correct role allowed.
    - `S` is assigned to a role before `R`'s role in the stated role order.
    - `T` is not assigned to the excluded role shown in the table row. This exclusion must leave `T`'s correct role allowed.
+   After writing these constraints, immediately test the completed correct assignment against each constraint. If the completed answer violates any constraint, discard the item before writing options.
 7. Shuffle the visible order of the five constraints.
-8. Create four complete one-to-one assignment options:
+8. Create four complete one-to-one assignment options around the already-built correct answer:
    - one option is the unique correct assignment
    - one wrong option must violate the immediate-after constraint
    - one wrong option must violate the `R` exclusion constraint
@@ -2167,6 +2261,7 @@ Use this construction recipe exactly, but randomize the surface names, role labe
 - constraints that can be ignored without changing the answer
 - options that fail simple one-to-one assignment before testing logic
 - any wrong option that satisfies all stated constraints
+- marked correct option violates any stated constraint
 - option rationales that reject an option using unstated uniqueness assumptions instead of a named violated constraint
 - option rationales that acknowledge a distractor as valid or satisfying all constraints
 - exclusion constraints that exclude the intended correct role for that entity
@@ -2175,6 +2270,7 @@ Use this construction recipe exactly, but randomize the surface names, role labe
 ### Validator Must Check
 
 - exactly one assignment satisfies all constraints
+- the marked correct option satisfies every stated constraint
 - exactly five entities and five ordered roles are used
 - role order is explicitly stated
 - the constraints follow the required recipe and force the unique assignment
@@ -2190,7 +2286,7 @@ Use this construction recipe exactly, but randomize the surface names, role labe
 ```text
 Five people are assigned to five ordered days Monday through Friday. Choose an internal anchor position and shuffled surface names before writing the item.
 Question: Which complete assignment is valid?
-Valid answer must follow the internal slot recipe, but the visible names, roles, constraint order, and option letter must be shuffled.
+First build the valid answer from the internal slot recipe, then derive all constraints from that answer. The visible names, roles, constraint order, and option letter must be shuffled.
 ```
 
 ---
@@ -2954,6 +3050,8 @@ options: exactly 4
 
 Generate a spatial relation question where the student infers one entity's position relative to another from two or more stated relations.
 
+Before writing the final item, build an explicit coordinate map or seat-index map for every entity. Every entity must occupy exactly one position, and no two entities may occupy the same position unless the question explicitly asks about coincidence. Use that verified map to derive the asked relation and the correct option.
+
 ### Allowed Forms
 
 - A is north/east/south/west of B
@@ -2966,12 +3064,17 @@ Generate a spatial relation question where the student infers one entity's posit
 - undefined perspective for left/right
 - circular seating without defining opposite/adjacent
 - multiple valid relative positions
+- contradictory constraints that force two entities into the same seat, grid point, or position
+- row-seating chains where an immediate-neighbor chain plus an end-position rule makes another stated offset impossible
 - more than one spatial convention
+- answer keys chosen before auditing the complete placement
 
 ### Validator Must Check
 
 - all relations can be placed consistently
+- each entity has one unique position in the constructed map
 - asked relation is uniquely determined
+- the marked answer follows from the completed map, not from an inconsistent partial chain
 - wrong options reflect reversal, partial placement, or perspective error
 
 ### Example Skeleton
@@ -3678,6 +3781,8 @@ options: exactly 4
 
 Generate a matrix where several options appear plausible because they satisfy part of the pattern, but only one satisfies every required rule.
 
+Before returning, normalize each answer option into the same attribute schema, such as `{count, fill, shape, position, orientation}`. All four normalized options must be distinct.
+
 ### Allowed Forms
 
 - option A satisfies row rule only
@@ -3688,6 +3793,8 @@ Generate a matrix where several options appear plausible because they satisfy pa
 ### Forbidden
 
 - obviously unrelated options
+- duplicate answer options, either identical text or equivalent structured cell descriptions
+- two labels with the same correct completion, such as both `A` and `D` saying `3 filled triangles`
 - two options satisfying all rules
 - rules that require subjective visual judgment
 - more than three simultaneous attributes
@@ -3695,8 +3802,10 @@ Generate a matrix where several options appear plausible because they satisfy pa
 ### Validator Must Check
 
 - correct option is the only full fit
+- all four answer options are textually and structurally distinct
 - each distractor has a named partial fit
 - explanation explicitly eliminates distractors by rule failure
+- option rationales do not describe a duplicate of the correct answer as wrong
 
 ### Example Skeleton
 
@@ -3808,10 +3917,11 @@ Before returning the final generated item, silently verify:
 2. The listed `reasoning_operators` are exactly the operators used.
 3. The generated difficulty matches the template level.
 4. There is exactly one correct option.
-5. Each wrong option represents a distinct meaningful mistake.
-6. The `option_rationales` explain every option.
-7. The explanation proves the answer from the question only.
-8. No forbidden pattern appears.
-9. The surface context changes wording without changing the reasoning structure.
+5. All four option texts are distinct after normalization; no two labels give the same answer value, relation, object, or completion.
+6. Each wrong option represents a distinct meaningful mistake.
+7. The `option_rationales` explain every option.
+8. The explanation proves the answer from the question only.
+9. No forbidden pattern appears.
+10. The surface context changes wording without changing the reasoning structure.
 
 If any check fails, regenerate the item before returning it.

@@ -1,0 +1,3 @@
+- Bad pattern: duplicate numeric options, such as both B and C showing `193` while only one is marked correct.
+- Compute the next term once from the declared rule and ensure that exact value appears under exactly one option label.
+- Explanations must use one consistent rule from start to finish. Do not include self-correction, contradictory calculations, or changed rule descriptions.

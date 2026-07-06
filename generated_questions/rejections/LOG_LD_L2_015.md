@@ -1,0 +1,4 @@
+- Bad pattern: asking "Which conclusion does NOT follow?" when several conclusions do not follow; this creates multiple defensible invalid-answer sets.
+- Bad pattern: premises `All musicians are creative` and `Some creative people are introverts`; conclusions about musicians being introverts are possible but not guaranteed, so multiple conclusions fail to follow.
+- Use the safer shape: ask which conclusion follows, not which does not follow. Provide exactly three conclusions and make exactly one complete valid conclusion set correct.
+- Do not treat possible overlap as a must-follow conclusion; `Some B are C` plus `All A are B` does not imply `Some A are C`.

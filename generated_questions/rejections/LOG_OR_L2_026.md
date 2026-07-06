@@ -6,5 +6,7 @@
 - Do not output an item if the explanation notices another option is also valid; regenerate internally instead.
 - For non-adjacency rules, check the exact named pair. Do not reject an option for adjacency involving the wrong pair.
 - Bad pattern: A and B both satisfy `Beena immediately before Dev`, `Arun left of Charu`, and `Arun not adjacent to Beena`.
+- Bad pattern: two arrangements both satisfy `Priya immediately before Quinn`, `Ravi left of Sarah`, and `Quinn is not rightmost`, because the Priya/Quinn block can appear in positions 1-2 or 2-3.
+- Avoid weak positional constraints such as `not rightmost` when they do not pin the immediate pair/block. Prefer `A is at the leftmost position` or `B is in the second position`.
 - Bad pattern: claiming an option violates `R is not adjacent to Q` by discussing adjacency between Q and P.
 - Bad pattern: no option satisfies all constraints.

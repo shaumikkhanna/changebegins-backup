@@ -1,6 +1,8 @@
 - Bad pattern: multiple complete assignment options satisfy all stated constraints, so the assignment is not unique.
+- Bad pattern: marked correct option violates one of the stated constraints, such as assigning Alex to Position 2 while the stem says Alex is not assigned to Position 2 or Position 3.
 - Exact bad pattern to avoid: when a wrong option satisfies every fixed, exclusion, and immediate-after rule, do not reject it using an unstated uniqueness assumption.
 - Use the rigid L3 recipe with shuffled surface mapping: exactly 5 entities, exactly 5 explicitly ordered roles, and internal slots P/Q/R/S/T.
+- Build the correct answer first, then derive constraints from that completed answer. Never write an exclusion that excludes the role used by the marked correct option.
 - Vary the anchor position `k` from 1-4, then assign P->Rk, Q->R(k+1), R->middle remaining role, S->lowest remaining role, and T->highest remaining role.
 - Use the anchor table exactly. For `k = 4`, the correct row is P->R4, Q->R5, R->R2, S->R1, T->R3; therefore R's exclusion must be `not R1 or R3`, not `not R2 or R3`.
 - Shuffle visible entity names, role labels, constraint order, answer option order, and correct option letter. Across a batch, the correct answer must not always be A.

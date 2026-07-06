@@ -1,0 +1,4 @@
+- Bad pattern: marking `No volunteers are inexperienced` / `All volunteers are experienced` as must-true from `All volunteers are trained professionals`, `Some trained professionals are not community organizers`, and `No community organizers are inexperienced`. There is no premise linking volunteers to community organizers or trained professionals to experience.
+- For `must be true` questions, build the correct option from an explicit full-premise chain before writing distractors.
+- Every wrong must-true option needs a valid countermodel where all premises hold and that option is false.
+- Do not output explanations with uncertainty, self-correction, or contradictory modal language; regenerate internally instead.

@@ -235,6 +235,11 @@ Context should change only the surface story, not the reasoning structure.
   - Simple ordered-symbol two-layer series are valid, such as `A, X, B, W, C, V, ?`.
   - Do not reject letter sequences merely because they are not numeric.
 
+- `LOG_SR_L2_004`
+  - Duplicate numeric answer options are globally forbidden and specifically recurring here.
+  - The correct next term must appear under exactly one option label.
+  - Explanations must not contradict themselves or change the sequence rule mid-solution.
+
 - `LOG_SR_L3_006`
   - Now rigid: exactly six visible terms from `term(n) = n^2 + c`, ask for the 8th term, and do not reveal the rule in the stem.
   - The 7th term is a near-miss distractor; the 8th term must appear exactly once and align across key, metadata, explanation, and rationales.
@@ -244,6 +249,9 @@ Context should change only the surface story, not the reasoning structure.
   - Parity plus divisibility must use divisibility by an odd number; divisibility by an even number overlaps with parity.
   - Added checks against self-correction text and mismatched correct option/explanation.
   - Example skeleton is the writing-tool/mark-on-paper item.
+  - Avoid first-letter, last-letter, vowel/consonant-ending, and word-length-plus-edge-letter oddities; these create alternate defensible answers too easily.
+  - If words are used, semantic category differences must not create another odd-one-out answer.
+  - No repeated identical options such as three `Outlined triangle` choices; L2 items must require checking both intended attributes, not one changed word.
 
 - `LOG_AN_L3_011`
   - Digit-sum, factor-count, and divisibility hidden rules are disallowed.
@@ -259,6 +267,11 @@ Context should change only the surface story, not the reasoning structure.
   - Distractors cannot be restatements, weaker forms, or entailed variants of the correct conclusion.
   - `A only if B` means `if A then B`; do not use equivalent `only if` statements as distractors.
 
+- `LOG_LD_L2_015`
+  - Now asks which conclusion follows, not which conclusion does not follow.
+  - Avoid invalid-conclusion-set questions where several conclusions fail and multiple option sets become defensible.
+  - Possible overlap is not must-follow; e.g. `All musicians are creative` plus `Some creative people are introverts` does not imply any musician is an introvert.
+
 - `LOG_LD_L3_017`
   - Broad `could be true`: must-true statements still count as possible.
   - Removed the earlier possible-but-not-forced restriction.
@@ -267,9 +280,27 @@ Context should change only the surface story, not the reasoning structure.
   - Universal negatives convert validly: `No A are B` equals `No B are A`.
   - Converse universal negatives cannot be used as distractors.
 
+- `LOG_SY_L1_018`
+  - Wrong options for the L1 universal chain must be invalid, not weaker entailed conclusions.
+  - Avoid `some` / existential wording in every option for this template.
+  - Bad pattern: `All A are C` marked correct while `Some C are A` is also defensible in the assessment's nonempty-class reading.
+
+- `LOG_SY_L2_020`
+  - Wrong options must be invalid after auditing both full-chain and premise-subset conclusions.
+  - Do not use valid intermediate conclusions as distractors, such as `No librarians are technology skeptics` when the intended full conclusion is `Some researchers are not technology skeptics`.
+  - Before finalizing, list every valid conclusion from one-step/two-step chains and ensure only the keyed option appears in the answer options.
+
 - `LOG_SY_L3_022`
   - Broad `could be true`, matching `LOG_LD_L3_017`: if a claim is entailed, it still could be true.
   - Removed the earlier possible-but-not-guaranteed restriction.
+  - For `must be true` questions, construct the keyed answer from an explicit premise chain before writing distractors.
+  - Wrong must-true options need valid countermodels; do not infer unstated links such as volunteers being experienced just because community organizers are experienced.
+  - Explanations must not contain uncertainty or self-correction language.
+
+- `LOG_SP_L2_046`
+  - Build an explicit coordinate or seat-index map before returning.
+  - Reject contradictory row-seating chains where two entities are forced into the same position.
+  - The marked answer must come from the completed consistent map, not from an inconsistent partial chain.
 
 - `LOG_OR_L1_024`
   - Rank distractors may include plausible status phrases like `Equal 1st`.
@@ -285,11 +316,15 @@ Context should change only the surface story, not the reasoning structure.
   - Now rigid: only `VALID_ARRANGEMENT`.
   - Exactly 4 entities, exactly 3 constraints, exactly 4 full left-to-right arrangement options.
   - Build valid arrangement first; wrong options must violate named rules.
+  - The fixed/end-position rule must pin the immediate pair/block strongly enough to make the full arrangement unique; avoid weak constraints like `B is not rightmost`.
 
 - `LOG_OR_L3_027`
   - Now rigid: only `VALID_ARRANGEMENT`.
   - Exactly 5 entities, exactly 4 constraints, exactly 4 full left-to-right arrangement options.
   - Same build-valid-first and option-audit recipe as `LOG_OR_L2_026`.
+  - Immediate pair/block must be pinned by a fixed-position rule; avoid weak non-adjacency constraints that still allow multiple valid full arrangements.
+  - Set the answer key only after auditing every option; never retain a source key that violates a stated constraint.
+  - Final explanations must not include source-data/validator meta-commentary.
 
 - `LOG_OR_L3_028`
   - Do not require every constraint to be individually necessary after removal.
@@ -308,6 +343,7 @@ Context should change only the surface story, not the reasoning structure.
   - For valid-grouping questions, build one correct complete grouping first, then create wrong complete groupings that violate at least one stated rule.
   - Audit every option against capacity and together/apart rules; exactly one option may satisfy all rules.
   - A together-pair can be valid in either labeled group if capacity is satisfied; do not treat the intended group placement as an extra hidden rule.
+  - For `VALID_GROUPING`, avoid bare same-group rules such as `R and S must be in the same group`; anchor the pair to a named group or use exclusion/fixed-group constraints.
 
 - `LOG_GR_L3_033`
   - Now rigid: only `VALID_GROUPING` with exactly 8 entities, 3 labeled groups sized 3/3/2, and exactly four non-capacity constraints.
@@ -318,6 +354,7 @@ Context should change only the surface story, not the reasoning structure.
 
 - `LOG_GR_L3_034`
   - Rigid logic but shuffled surface: exactly 5 entities, 5 explicitly ordered roles, and 5 constraints that force a unique complete assignment.
+  - Build the correct answer first, then derive constraints and distractors around it; never allow the marked correct option to violate a stated exclusion.
   - Internal construction uses slots `P/Q/R/S/T`, variable anchor `k` from 1-4, and an explicit anchor table; surface names, role labels, constraint order, option order, and correct letter must vary.
   - The anchor table must be followed exactly. For example, if `k = 4`, `R` is assigned to `R2`, so the `R` exclusion must be `not R1 or R3`; excluding `R2` makes the item unsatisfiable.
   - Wrong-option plan: one immediate-after violation, one `R` exclusion violation, and one `S before R` or `T not middle remaining role` violation; every wrong rationale must name the violated constraint.
@@ -348,6 +385,10 @@ Context should change only the surface story, not the reasoning structure.
   - Now rigid: exactly three people, exactly one liar, and exactly three non-conditional claims.
   - Required recipe: A says "B is a liar"; B says "A is a liar"; C says "B is a truth-teller".
   - Unique world is A liar, B truth-teller, C truth-teller; audit all four options and reject any explanation that selects a contradicted option.
+
+- `LOG_RM_L3_059`
+  - Answer options must be textually and structurally distinct after normalizing visual attributes.
+  - Reject duplicate options such as two labels both saying `3 filled triangles`.
 
 ## Why This Is Better Than The Older Flow
 
